@@ -65,6 +65,7 @@ void merge(vector<int>&array, int l, int m, int r) {
         }else{
             inversions += nl - i;
             // inversions is equals to left elements in left subarray...
+            // this is from main branch
             array[k] = rarr[j];
             j++;
         }
