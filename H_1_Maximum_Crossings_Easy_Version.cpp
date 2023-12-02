@@ -1,5 +1,3 @@
-                                                /* God loves You */
-
 #include<bits/stdc++.h>
 using namespace std;
 
