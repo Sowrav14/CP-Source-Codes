@@ -63,8 +63,8 @@ void merge(vector<int>&array, int l, int m, int r) {
             array[k] = larr[i];
             i++;
         }else{
-            // cout << larr[i] << " " << rarr[i] << endl;
             inversions += nl - i;
+            // inversions is equals to left elements in left subarray...
             array[k] = rarr[j];
             j++;
         }
