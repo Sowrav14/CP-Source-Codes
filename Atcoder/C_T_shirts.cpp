@@ -36,7 +36,32 @@ inline int egcd(int a,int b,int &x,int &y)		{if(a==0){ x=0; y=1; return b;} int 
 
 void allons_y(){
 
-    
+    int n,m; cin >> n >> m;
+    int k = 0;
+    int wm = 0, wk = 0;
+
+    string s; cin >> s;
+
+    f(i,n){
+        if(s[i] == '0'){
+            wm = 0, wk = 0;
+        } else if(s[i] == '1'){
+            if(wm == m){
+                k++;
+                wk++;
+            } else{
+                wm++;
+            }
+        } else {
+            if(wk == k){
+                wk++;
+                k++;
+            } else {
+                wk++;
+            }
+        }
+    }
+    cout << k << endl;
 
 }
 
@@ -44,7 +69,7 @@ void allons_y(){
 le_debut(){
     Sowrav_Nath
     int test = 1;
-    cin >> test;
+    // cin >> test;
     f1(tc,test){
         // cout << "Case " << tc << ": ";
         // memset(dp, 0, sizeof(dp));

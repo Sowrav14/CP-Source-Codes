@@ -36,7 +36,20 @@ inline int egcd(int a,int b,int &x,int &y)		{if(a==0){ x=0; y=1; return b;} int 
 
 void allons_y(){
 
-    
+    int n,g,m; cin >> n >> g >> m;
+    int gl = 0, mg = 0;
+    f(i,n){
+        if(gl == g){
+            gl = 0;
+        } else if(mg == 0){
+            mg = m;
+        } else{
+            gl += min(g, mg);
+            mg -= min(g, mg);
+        }
+    }
+
+    cout << gl << " " << mg << endl;
 
 }
 
@@ -44,7 +57,7 @@ void allons_y(){
 le_debut(){
     Sowrav_Nath
     int test = 1;
-    cin >> test;
+    // cin >> test;
     f1(tc,test){
         // cout << "Case " << tc << ": ";
         // memset(dp, 0, sizeof(dp));
