@@ -32,13 +32,59 @@ inline int sub(int x,int y)     				{int ret=((x%M)-(y%M)+M)%M;    if(ret<0)    
 inline int bigmod(int x,int y)  				{int ret=1; while(y>0)  {if(y&1)    {ret=(ret*x)%M;}    y>>=1;x=(x*x)%M;}   return ret;}
 inline int egcd(int a,int b,int &x,int &y)		{if(a==0){ x=0; y=1; return b;} int x1,y1; int d=egcd(b%a,a,x1,y1); x=y1-(b/a)*x1; y=x1; return d;}
 
+pair<int,int> temp[3][3];
 
+
+int recur(int i, int j, int k){
+    int ans = 0;
+    set<int>t;
+    ans += temp[0][i].first;
+    t.insert(temp[0][i].second);
+    ans += temp[1][j].first;
+    t.insert(temp[1][j].second);
+    ans += temp[2][k].first;
+    t.insert(temp[2][k].second);
+
+    return t.size() == 3 ? ans : 0;
+}
 
 void allons_y(){
 
-    int x, y;
-    cout << egcd(4, 6, x, y) << endl;
-    cout << x << " " << y << endl;
+    int n; cin >> n;
+    vector<pair<int,int>>a,b, c;
+    f1(i,n){
+        int x; cin >> x;
+        a.pb({x, i});
+    }
+    f1(i,n){
+        int x; cin >> x;
+        b.pb({x, i});
+    }
+    f1(i,n){
+        int x; cin >> x;
+        c.pb({x, i});
+    }
+
+    sort(a.rbegin(), a.rend());
+    sort(b.rbegin(), b.rend());
+    sort(c.rbegin(), c.rend());
+
+    for(int i=0;i<3;i++){
+        temp[0][i] = a[i];
+        temp[1][i] = b[i];
+        temp[2][i] = c[i];
+    }
+
+    int ans = 0;
+    for(int i=0;i<3;i++){
+        for(int j=0;j<3;j++){
+            for(int k=0;k<3;k++){
+                ans = max(ans, recur(i, j, k));
+            }
+        }
+    }
+    cout << ans << endl;
+    
 
 }
 

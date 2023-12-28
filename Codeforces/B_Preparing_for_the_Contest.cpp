@@ -36,9 +36,10 @@ inline int egcd(int a,int b,int &x,int &y)		{if(a==0){ x=0; y=1; return b;} int 
 
 void allons_y(){
 
-    int x, y;
-    cout << egcd(4, 6, x, y) << endl;
-    cout << x << " " << y << endl;
+    int n,k; cin >> n >> k;
+    for(int i=1;i<=k;i++) cout << i << " ";
+    for(int i=n;i>k;i--) cout << i << " ";
+    cout << endl;
 
 }
 

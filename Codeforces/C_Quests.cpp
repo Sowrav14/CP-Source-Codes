@@ -36,9 +36,24 @@ inline int egcd(int a,int b,int &x,int &y)		{if(a==0){ x=0; y=1; return b;} int 
 
 void allons_y(){
 
-    int x, y;
-    cout << egcd(4, 6, x, y) << endl;
-    cout << x << " " << y << endl;
+    int n,k; cin >> n >> k;
+    vector<int>a(n), b(n), pref(n), mx(n);
+    f(i,n) cin >> a[i];
+    f(i,n) cin >> b[i];
+
+    pref[0] = a[0];
+    mx[0] = b[0];
+    for(int i=1;i<n;i++){
+        pref[i] = pref[i-1] + a[i];
+        mx[i] = max(mx[i-1], b[i]);
+    }
+    int ans = 0;
+    for(int i=0;i<min(k,n);i++){
+        int rem = k - i - 1;
+        int res = pref[i] + mx[i] * rem;
+        ans = max(res, ans);
+    }
+    cout << ans << endl;
 
 }
 

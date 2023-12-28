@@ -36,9 +36,19 @@ inline int egcd(int a,int b,int &x,int &y)		{if(a==0){ x=0; y=1; return b;} int 
 
 void allons_y(){
 
-    int x, y;
-    cout << egcd(4, 6, x, y) << endl;
-    cout << x << " " << y << endl;
+    int n; cin >> n;
+    string s; cin >> s;
+    map<char, int>m;
+    f(i,n){
+        m[s[i]]++;
+    }
+    int ans = 0;
+    for(auto i : m){
+        int x = i.first - 'A' + 1;
+        if(x <= i.second) ans++;
+    }
+    cout << ans << endl;
+
 
 }
 
