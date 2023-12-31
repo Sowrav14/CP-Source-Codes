@@ -44,8 +44,9 @@ void allons_y(){
         } else if(mg == 0){
             mg = m;
         } else{
-            gl += min(g, mg);
-            mg -= min(g, mg);
+            int x = min(g - gl, mg);
+            gl += x;
+            mg -= x;
         }
     }
 

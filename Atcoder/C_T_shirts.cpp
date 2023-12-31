@@ -46,11 +46,13 @@ void allons_y(){
         if(s[i] == '0'){
             wm = 0, wk = 0;
         } else if(s[i] == '1'){
-            if(wm == m){
+            if(wm == m and wk == k){
                 k++;
                 wk++;
-            } else{
+            } else if(wm < m){
                 wm++;
+            } else if(wk < k){
+                wk++;
             }
         } else {
             if(wk == k){
