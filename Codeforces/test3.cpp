@@ -1,20 +1,94 @@
 #include<bits/stdc++.h>
 using namespace std;
-const int N = 1e5 + 10;
-int n;
-int a[N],dp[N];
+
+#define Sowrav_Nath ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+#define f(i,n)              for(int i=0;i<n;i++)
+#define f1(i,n)             for(int i=1;i<=n;i++)
+#define rf(i,n)             for(int i=n-1;i>=0;i--)
+#define rf1(i,n)            for(int i = n;i>=1;i--)
+#define le_debut            signed main
+// #define int                 long long int
+#define endl                '\n'
+#define pb                  push_back
+#define oui                 cout << "YES" << endl
+#define non                 cout << "NO" << endl
+#define homme               cout << "Bob" << endl
+#define femme               cout << "Alice" << endl
+#define un_de_minus         cout << "-1" << endl
+#define duck                cout << 0 << endl;
+#define reponse             cout << ans << endl
+#define ici                 cout << "Je suis ici" << endl
+const int N = 2*1e5+10;
+const int M = 1e9+7;
+const int inf = 1e12;
+
+
+// Inline Function
+inline int bigmod(int x,int y);
+inline int inverse_mod(int n,int M) 			{return bigmod(n,M-2);}
+inline int ad(int x,int y)      				{int ret=(x%M+y%M)%M;   if(ret<0)   {ret+=M,ret=ret%M;} return ret;}
+inline int gun(int x,int y)     				{int ret=((x%M)*(y%M))%M;   if(ret<0)   {ret+=M,ret=ret%M;} return ret;}
+inline int sub(int x,int y)     				{int ret=((x%M)-(y%M)+M)%M;    if(ret<0)    {ret+=M,ret=ret%M;} return ret;}
+inline int bigmod(int x,int y)  				{int ret=1; while(y>0)  {if(y&1)    {ret=(ret*x)%M;}    y>>=1;x=(x*x)%M;}   return ret;}
+inline int egcd(int a,int b,int &x,int &y)		{if(a==0){ x=0; y=1; return b;} int x1,y1; int d=egcd(b%a,a,x1,y1); x=y1-(b/a)*x1; y=x1; return d;}
 
 
 
-int main(){
-    cin >> n;
-    for(int i=1;i<=n;i++){
-        cin >> a[i];
+void allons_y(){
+
+    int n,m; cin >> n >> m;
+    set<int>s1,s2;
+    for(int i=1;i<=n+1;i++){
+        s1.insert(i);
+        s2.insert(i);
     }
-    dp[0] = 0;
-    dp[1] = a[1];
-    for(int i=2;i<=n;i++){
-        dp[i] = max(a[i] + dp[i-2], dp[i-1]);
+
+    vector<int>v(n); f(i,n) cin >> v[i];
+
+    set<int>cnt1,cnt2;
+    vector<int>pref(n), suf(n);
+    int ans = 0;
+    f(i,n){
+        int x = v[i];
+        if(s1.find(x) != s1.end()){
+            s1.erase(x);
+        }
+        cnt1.insert(x);
+        int mex = *s1.begin();
+        int oc = cnt1.size();
+        pref[i] = oc - mex;
     }
-    cout << dp[n] << endl;
+    ans = max(ans, int(cnt1.size() - *s1.begin()));
+
+    rf(i,n){
+        int x = v[i];
+        if(s2.find(x) != s2.end()){
+            s2.erase(x);
+        }
+        cnt2.insert(x);
+        int mex = *s2.begin();
+        int oc = cnt2.size();
+        suf[i] = oc - mex;
+    }
+    ans = max(ans, int(cnt2.size() - *s2.begin()));
+    // f(i,n) cout << pref[i] << " "; cout << endl;
+    // f(i,n) cout << suf[i] << " "; cout << endl;
+    f(i,n){
+        ans = max(ans, suf[i]);
+        ans = max(ans, pref[i]);
+    }
+    cout << ans << endl;
+
+}
+
+
+le_debut(){
+    Sowrav_Nath
+    int test = 1;
+    cin >> test;
+    f1(tc,test){
+        // cout << "Case " << tc << ": ";
+        // memset(dp, 0, sizeof(dp));
+        allons_y();
+    }
 }
