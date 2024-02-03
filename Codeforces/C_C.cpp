@@ -5,7 +5,16 @@ using namespace std;
 
 void solve(){
 
-    
+    int n; cin >> n; 
+    int ans = 1e15;
+    for(int i=1;i*i<=n;i++){
+        if(n % i == 0){
+            int x = i;
+            int y = n/i;
+            ans = min(ans, x+y-2);
+        }
+    }
+    cout << ans << endl;
 
 }
 
@@ -13,7 +22,7 @@ void solve(){
 signed main(){
     Fast_IO()
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for(int i=1;i<=t;i++){
         // cout << "Case " << t << ": ";
         solve();

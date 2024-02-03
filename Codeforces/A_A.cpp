@@ -5,7 +5,9 @@ using namespace std;
 
 void solve(){
 
-    
+    int a,b; cin >> a >> b;
+    b *= 2;
+    cout << max(a-b, 0ll) << endl;
 
 }
 
@@ -13,7 +15,7 @@ void solve(){
 signed main(){
     Fast_IO()
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for(int i=1;i<=t;i++){
         // cout << "Case " << t << ": ";
         solve();

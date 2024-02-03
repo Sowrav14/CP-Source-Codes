@@ -5,7 +5,15 @@ using namespace std;
 
 void solve(){
 
-    
+    int a,b; cin >> a >> b;
+    int cur = 1;
+    int ans = 0;
+    while(cur < b){
+        cur -= 1;
+        cur += a;
+        ans++;
+    }
+    cout << ans << endl;
 
 }
 
@@ -13,7 +21,7 @@ void solve(){
 signed main(){
     Fast_IO()
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for(int i=1;i<=t;i++){
         // cout << "Case " << t << ": ";
         solve();
