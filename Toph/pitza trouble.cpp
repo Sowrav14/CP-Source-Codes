@@ -20,11 +20,13 @@ int calculate(vector<pii>arr){
             int time = p - x;
             if(time > d){
                 pen += time - d;
+                pen += w;
             }
         } else{
             int time = p + x - 2 * arr[0].first;
             if(time > d){
                 pen += time - d;
+                pen += w;
             }
         }
     }
@@ -40,16 +42,18 @@ int calculate(vector<pii>arr){
             int time = x - p;
             if(time > d){
                 pen += time - d;
+                pen += w;
             }
         } else{
             int time = 2 * arr.back().first - p - x;
             if(time > d){
                 pen += time - d;
+                pen += w;
             }
         }
     }
 
-    cout << pro << " " << pen << endl;
+    // cout << pro << " " << pen << endl;
     ret = max(ret, pro - pen);
     return ret;
 
