@@ -36,19 +36,20 @@ inline int egcd(int a,int b,int &x,int &y)		{if(a==0){ x=0; y=1; return b;} int 
 int n;
 int a[N];
 int tree[4*N];
+int st[4*N];
 int prop[4*N];
 int tot;
 
 void build(int node, int l, int r){
     prop[node] = 1;
     if(l == r){
-        tree[node] = a[l];
+        tree[node] = st[node] = a[l];
         return;
     }
     int m = (l + r) / 2;
     build(2*node, l, m);
     build(2*node+1, m+1, r);
-    tree[node] = tree[2*node] + tree[2*node+1];
+    st[node] = tree[node] = tree[2*node] + tree[2*node+1];
 }
 
 
@@ -56,6 +57,7 @@ void rangeupdate(int node, int l, int r, int i, int j, int val){
     if(i>r or j<l) return;
     if(i<=l and j>=r){
 	    prop[node] = val;
+        tree[node] = (prop[node] ? st[node] : 0);
         return;
     }
 
@@ -63,7 +65,9 @@ void rangeupdate(int node, int l, int r, int i, int j, int val){
     int mid = (l + r) / 2;
     rangeupdate(2*node, l, mid, i, j, val);
     rangeupdate(2*node+1, mid+1, r, i, j, val);
-    tree[node] = tree[2*node] * prop[2*node] + tree[2*node+1] * prop[2*node+1];
+    // tree[node] = tree[2*node] * prop[2*node] + tree[2*node+1] * prop[2*node+1];
+    // tree[node] = (prop[2*node] ? st[2*node] : tree[2*node]) + (prop[2*node+1] ? st[2*node+1] : tree[2*node+1]);
+    tree[node] = prop[node] ? tree[2*node] + tree[2*node+1] : 0;
 }
 
 
@@ -123,6 +127,18 @@ void allons_y(){
     build(1, 1, n);
     
     cout << recur(1, 0) << endl;
+    // cout << query(1, 1, n, 1, n) << endl;
+    // rangeupdate(1, 1, n, 1, 2, 0);
+    // for(int i=1;i<4*n;i++) cout << tree[i] << " "; cout << endl;
+    // cout << query(1, 1, n, 1, n) << endl;
+    // rangeupdate(1, 1, n, 1, 4, 0);
+    // for(int i=1;i<4*n;i++) cout << tree[i] << " "; cout << endl;
+    // cout << query(1, 1, n, 1, n) << endl;
+    // rangeupdate(1, 1, n, 1, 2, 1);
+    // cout << query(1, 1, n, 1, 8) << endl;
+    // rangeupdate(1, 1, n, 1, 4, 1);
+    // cout << query(1, 1, n, 1, 8) << endl;
+    
 
 }
 
