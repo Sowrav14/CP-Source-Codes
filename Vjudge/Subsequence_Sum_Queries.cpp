@@ -67,10 +67,10 @@ void build(int node, int l, int r){
 
 
 vector<int> query(int node, int l, int r, int i, int j){
-    vector<int>ret(20, 0);
+    vector<int>ret(mod, 0);
     if(l>j or r<i) return ret;
     if(l>=i and r<=j){
-        for(int ii=0;ii<20;ii++){
+        for(int ii=0;ii<mod;ii++){
             ret[ii] = tree[node][ii];
         }
         return ret;

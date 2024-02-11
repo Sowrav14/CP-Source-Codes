@@ -37,7 +37,22 @@ inline int egcd(int a,int b,int &x,int &y)		{if(a==0){ x=0; y=1; return b;} int 
 
 void allons_y(){
 
-    
+    int n; cin >> n;
+    vector<int>v(n+1);
+    for(int i=1;i<=n;i++) cin >> v[i];
+    vector<int>lis;
+    int ans = 0;
+    for(int i=1;i<=n;i++){
+        int it = lower_bound(lis.begin(), lis.end(), v[i]) - lis.begin();
+        if(it == lis.size()){
+            lis.push_back(v[i]);
+        } else {
+            // cout << i << " ";
+            lis.push_back(lis.back()+1);
+            ans++;
+        }
+    }
+    cout << ans << endl;
 
 }
 
@@ -45,7 +60,7 @@ void allons_y(){
 le_debut(){
     Sowrav_Nath
     int test = 1;
-    cin >> test;
+    // cin >> test;
     f1(tc,test){
         // cout << "Case " << tc << ": ";
         // memset(dp, 0, sizeof(dp));
