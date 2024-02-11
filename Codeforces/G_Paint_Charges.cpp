@@ -138,6 +138,19 @@ void allons_y(){
     // cout << query(1, 1, n, 1, 8) << endl;
     // rangeupdate(1, 1, n, 1, 4, 1);
     // cout << query(1, 1, n, 1, 8) << endl;
+
+
+    // int sum = 0;
+    // sum += query(1, 1, n, 1, 2);
+    // rangeupdate(1, 1, n, 1, 2, 0);
+    // sum += query(1, 1, n, 3, 3);
+    // rangeupdate(1, 1, n, 3, 3, 0);
+    // sum += query(1, 1, n, 4, 5);
+    // rangeupdate(1, 1, n, 4, 5, 0);
+    // sum += query(1, 1, n, 6, 7);
+    // rangeupdate(1, 1, n, 6, 7, 0);
+
+    // cout << sum << endl;
     
 
 }
