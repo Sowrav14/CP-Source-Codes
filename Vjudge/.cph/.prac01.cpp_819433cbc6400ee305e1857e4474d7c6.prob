@@ -1,0 +1,1 @@
+{"name":"Local: prac01","url":"n:\\Study Materials\\All about CP\\CP-Source-Codes\\Vjudge\\prac01.cpp","tests":[{"id":1707917217754,"input":"4 3\n5 1 3 2\n4\n1 2\n1 3\n1 4\n2 4","output":"2\n4\n6\n4"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"n:\\Study Materials\\All about CP\\CP-Source-Codes\\Vjudge\\prac01.cpp","group":"local","local":true}
