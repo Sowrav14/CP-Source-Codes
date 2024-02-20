@@ -11,10 +11,6 @@ inline int gun(int x,int y)     				{int ret=((x%mod)*(y%mod))%mod;   if(ret<0) 
 int a[N];
 int tree[4*N][20];
 
-
-
-
-
 void build(){
     for(int i=0;i<n;i++){
         tree[n+i][a[i]%m] = 1;
