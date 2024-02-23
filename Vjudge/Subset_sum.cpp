@@ -6,26 +6,17 @@ using namespace std;
 const int N = 110;
 int n;
 int a[N];
-
-/*
- *  subset of {1, 2, 3, 4}
- *            {1}, {2}, {3}, {4}
- *            {1, 2}, {1, 3}, {1, 4}, {2, 3}, {2, 4}, {3, 4}
- *            {1, 2, 3}, {1, 2, 4}, {1, 3, 4}, {2, 3, 4}
- *            {1, 2, 3, 4}
- * 
- *            every one occured 8(pow(2, 4-1)) times.
-*/
+set<int>s;
 
 
-
-int subsetsum(){
-    int ret = 0;
-    int cnt = pow(2, n-1);
-    for(int i=1;i<=n;i++){
-        ret += a[i] * cnt;
+void subsetsum(int i, int sum){
+    if(i > n){
+        s.insert(sum);
+        return;
     }
-    return ret;
+
+    subsetsum(i+1, sum);
+    subsetsum(i+1, sum + a[i]);
 }
 
 void solve(){
@@ -36,8 +27,13 @@ void solve(){
         cin >> a[i];
         sum += a[i];
     }
-
-    cout << subsetsum() - sum << endl;
+    s.clear();
+    subsetsum(1, 0);
+    int ans = 0;
+    for(auto i : s){
+        ans += i;
+    }
+    cout << ans << endl;
 
 }
 
