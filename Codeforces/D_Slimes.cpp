@@ -20,6 +20,10 @@ void solve(){
         cin >> v[i];
         pref[i] = pref[i-1] + v[i];
     }
+    if(n == 1){
+        cout << -1 << endl;
+        return;
+    }
     vector<int>dist(n+1, 0), ans(n+1, n+1);
     dist[1] = 1;
     for(int i=2;i<=n;i++){
@@ -34,6 +38,11 @@ void solve(){
     // for(int i=1;i<=n;i++) cout << dist[i] << " "; cout << endl;
 
     for(int i=1;i<=n;i++){
+
+        if((i-1>0 and v[i] < v[i-1]) or (i+1<=n and v[i] < v[i+1])){
+            cout << 1 << " ";
+            continue;
+        }
         
         // check right.
         int l = i + 1, r = n;
@@ -41,9 +50,9 @@ void solve(){
         while(l <= r){
             int m = (l + r) / 2;
             int sum = pref[m] - pref[i];
-            int el = dist[m] - dist[i];
+            int el = dist[m] - dist[i+1];
             // cout << sum << " " << el << " " << i << " " << m << endl;
-            if(sum > v[i] and (el < m-i)){
+            if(sum > v[i] and (el >= 1 or m - i == 1)){
                 res = m;
                 r = m - 1;
             } else {
@@ -63,16 +72,16 @@ void solve(){
         while(l <= r){
             int m = (l + r) / 2;
             int sum = pref[i-1] - pref[m-1];
-            int el = dist[i-1] - dist[m-1];
-            cout << sum << " " << el << " " << i << " " << m << endl;
-            if(sum > v[i] and (el < i-m)){
+            int el = dist[i-1] - dist[m];
+            // cout << sum << " " << el << " " << i << " " << m << endl;
+            if(sum > v[i] and (el >= 1 or i-m == 1)){
                 res = m;
                 l = m + 1;
             } else{
                 r = m - 1;
             }
         }
-        cout << res << endl;
+        // cout << res << endl;
         // res = i - res + 1;
         // ans[i] = min(ans[i], res);
         if(res != n+1){
@@ -81,7 +90,7 @@ void solve(){
         }
 
         if(ans[i] == n+1) ans[i] = -1;
-        // cout << ans[i] << " ";
+        cout << ans[i] << " ";
 
     } cout << endl;
 
