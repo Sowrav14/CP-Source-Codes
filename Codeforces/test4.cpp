@@ -16,7 +16,7 @@ using namespace std;
 #define Fast_IO() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 const int N = 1e5 + 10;
 int a[N];
-set<int> tree[N];
+set<int> tree[4*N];
 
 
 void build(int node, int l, int r){
@@ -37,7 +37,7 @@ void build(int node, int l, int r){
 int query(int node, int l, int r, int i, int j){
     if(l > j or r < i) return 0;
     if(l>=i and r<=j){
-        return tree[node].size;
+        return tree[node].size();
     }
     int m = (l + r) / 2;
     int left = quer
