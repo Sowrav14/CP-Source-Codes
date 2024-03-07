@@ -8,20 +8,20 @@ pair<int,int> a[N];
 int n,k;
 int dp[210][210][210];
 
-// int roundness(int i, int j, int five){
-//     if(j == k){
-//         return 0;
-//     }
-//     if(i > n){
-//         return INT_MIN;
-//     }
-//     if(dp[i][j][five] != -1) return dp[i][j][five];
+int roundness(int i, int j, int five){
+    if(j == k){
+        return 0;
+    }
+    if(i > n){
+        return INT_MIN;
+    }
+    if(dp[i][j][five] != -1) return dp[i][j][five];
 
-//     int ans = 0;
-//     ans = max(ans, roundness(i+1, j, five));
-//     ans = max(ans, a[i].first + roundness(i+1, j+1, five+a[i].second));
-//     return dp[i][j][five] = ans;
-// }
+    int ans = 0;
+    ans = max(ans, roundness(i+1, j, five));
+    ans = max(ans, a[i].first + roundness(i+1, j+1, five+a[i].second));
+    return dp[i][j][five] = ans;
+}
 
 
 void solve(){
@@ -51,23 +51,10 @@ void solve(){
     // cout << roundness(1, 0, 0) << endl;
 
     for(int i=1;i<=n;i++){
-        for(int j=0;j<=k;j++){
-            for(int f=0;f<=tot;f++){
-                int cur = dp[i][j][f];
-                dp[i+1][j+1][f+a[i].second] = max(dp[i][j][f]+a[i].first, dp[i+1][j+1][f+a[i].second]);
-                dp[i+1][j][f] = max(dp[i+1][j][f], dp[i][j][f]);
-            }
-        }
+        
     }
 
-    int ans = 0;
-    for(int f=0;f<=tot;f++){
-        for(int i=1;i<=n+1;i++){
-            ans = max(ans, min(f, dp[i][k][f]));
-            cout << f << ":" << dp[i][k][f] << " ";
-        }
-    }
-    cout << ans << endl;
+    
 
 }
 
