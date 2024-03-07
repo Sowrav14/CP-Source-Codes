@@ -79,8 +79,8 @@ void solve(){
 
     if(mxi != mmxi){
         ans -= (mx + mmx);
-    } else if(secmmx < 0){
-        ans -= 
+    } else {
+        ans -= max(mx + secmmx, mmx + secmx);
     }
 
     cout << fixed << setprecision(12) << ans << endl;
