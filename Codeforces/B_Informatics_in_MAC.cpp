@@ -3,56 +3,50 @@ using namespace std;
 #define int long long int
 #define Fast_IO() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 
-int n;
-vector<int>v;
-bool check(int id){
-    map<int,int>a,b;
-    for(int i=0;i<id;i++){
-        a[v[i]]++;
-    }
-    for(int i=n-1;i>=id;i--){
-        b[v[i]]++;
-    }
-
-    int m1 = 0;
-    for(auto i : a){
-        if(i.first != m1) break;
-        else m1++;
-    }
-    int m2 = 0;
-    for(auto i : b){
-        if(i.first != m2) break;
-        else m2++;
-    }
-
-    return m1 == m2;
-}
-
-
-
 void solve(){
 
-    cin >> n;
-    v.clear();
-    v.resize(n);
+    int n; cin >> n;
+    vector<int>v(n);
+    for(auto &i : v) cin >> i;
+
+    set<int>s;
+    vector<int>pref(n), suf(n);
+
+    for(int i=0;i<=n;i++) s.insert(i);
     for(int i=0;i<n;i++){
-        cin >> v[i];
+        if(s.find(v[i]) != s.end()){
+            s.erase(s.find(v[i]));
+        }
+        pref[i] = *s.begin();
     }
 
-    int l=1, r = n-1;
-    while(l <= r){
-        int m = (l + r) / 2;
-        cout << m << endl;
-        if(check(m)){
-            cout << 2 << endl;
-            cout << 1 << " " << m << endl;
-            cout << m+1 << " " << n << endl;
-            return;
-        } else{
-            l = m + 1;
+    s.clear();
+    for(int i=0;i<=n;i++) s.insert(i);
+    for(int i=n-1;i>=0;i--){
+        if(s.find(v[i]) != s.end()){
+            s.erase(s.find(v[i]));
+        }
+        suf[i] = *s.begin();
+    }
+
+    // for(int i=0;i<n;i++) cout << pref[i] << " "; cout << endl;
+    // for(int i=0;i<n;i++) cout << suf[i] << " " ; cout << endl; 
+
+    int pos = -1;
+    for(int i=0;i<n-1;i++){
+        if(pref[i] == suf[i+1]) {
+            pos = i + 1;
+            break;
         }
     }
-    cout << -1 << endl;
+
+    if(pos == -1){
+        cout << -1 << endl;
+    } else{
+        cout << 2 << endl;
+        cout << 1 << " " << pos << endl;
+        cout << pos + 1 << " " << n << endl;
+    }
 
 }
 
