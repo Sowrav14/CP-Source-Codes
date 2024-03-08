@@ -78,9 +78,19 @@ void solve(){
     // cout << mmxi << " " << secmmxi << endl;
 
     if(mxi != mmxi){
-        ans -= (mx + mmx);
+        if(mx >=0 and mmx >=0) ans -= (mx + mmx);
+        else if(mx >= 0) ans -= mx;
+        else if(mmx >= 0) ans -= mmx;
+        else ans -= max(mx, mmx);
     } else {
-        ans -= max(mx + secmmx, mmx + secmx);
+        double res = mx + secmmx;
+        res = max(res, mmx + secmx);
+        res = max(res, mx);
+        res = max(res, secmmx);
+        res = max(res, mmx);
+        res = max(res, secmmx);
+
+        ans -= res;
     }
 
     cout << fixed << setprecision(12) << ans << endl;
