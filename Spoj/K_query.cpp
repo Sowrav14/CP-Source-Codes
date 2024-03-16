@@ -19,24 +19,7 @@ const int N = 30010;
 int a[N];
 vector<int> tree[4*N];
 
-vector<int> merge(vector<int>x, vector<int>y){
-    int i=0, j=0;
-    vector<int>ret;
-    while(i<x.size() and j<y.size()){
-        if(x[i] < y[j]){
-            ret.push_back(x[i++]);
-        } else{
-            ret.push_back(y[j++]);
-        }
-    }
-    while(i < x.size()){
-        ret.push_back(x[i++]);
-    }
-    while(j < y.size()){
-        ret.push_back(y[j++]);
-    }
-    return ret;
-}
+
 
 void build(int node, int l, int r){
     if(l == r){
@@ -47,20 +30,48 @@ void build(int node, int l, int r){
     int m = (l + r) / 2;
     build(2*node, l, m);
     build(2*node+1, m+1, r);
-    tree[node] = merge(tree[2*node], tree[2*node+1]);
+    merge(tree[2*node].begin(), tree[2*node].end(), tree[2*node+1].begin(), tree[2*node+1].end(), back_inserter(tree[node]));
+    return;
+    // int i=0, j=0;
+    // while(i < tree[2*node].size() and j < tree[2*node+1].size()){
+    //     if(tree[2*node][i] < tree[2*node+1][j]){
+    //         tree[node].push_back(tree[2*node][i++]);
+    //     } else{
+    //         tree[node].push_back(tree[2*node+1][j++]);
+    //     }
+    // }
+    // while(i < tree[2*node].size()){
+    //     tree[node].push_back(tree[2*node][i++]);
+    // }
+    // while(j < tree[2*node+1].size()){
+    //     tree[node].push_back(tree[2*node+1][j++]);
+    // }
 }
 
-vector<int> query(int node, int l, int r, int i, int j){
+int query(int node, int l, int r, int i, int j, int k){
+    
     if(l>j or r<i){
-        vector<int>e; return e;
+        return 0;
     }
     if(l>=i and r<=j){
-        return tree[node];
+        // int x = tree[node].size();
+        // int ll = 0, rr = tree[node].size()-1;
+        // while(ll <= rr){
+        //     int mm = (ll + rr) / 2;
+        //     if(tree[node][mm] > k){
+        //         x = mm;
+        //         rr = mm - 1;
+        //     } else{
+        //         ll = mm + 1;
+        //     }
+        // }
+        int x = upper_bound(tree[node].begin(), tree[node].end(), k) - tree[node].begin();
+        return tree[node].size() - x;
     }
     int m = (l + r) / 2;
-    vector<int>left = query(2*node, l, m, i, j);
-    vector<int>right = query(2*node+1, m+1, r, i, j);
-    return merge(left, right);
+    int left = query(2*node, l, m, i, j, k);
+    int right = query(2*node+1, m+1, r, i, j, k);
+    return left + right;
 }
 
 
@@ -83,10 +94,7 @@ void solve(){
     int q; cin >> q;
     for(int i=1;i<=q;i++){
         int l, r, k; cin >> l >> r >> k;
-        vector<int> temp = query(1, 1, n, l, r);
-        // for(auto it : temp) cout << it << " "; cout << endl;
-        int it = upper_bound(temp.begin(), temp.end(), k) - temp.begin();
-        cout << temp.size() - it << endl;
+        cout << query(1, 1, n, l, r, k) << endl;
     }
 
 
