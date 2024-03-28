@@ -21,7 +21,11 @@ void solve(){
             ans += "R";
             prev = v[j];
             j--;
-        } else{
+        } else if(v[i] > prev){
+            ans += 'L';
+            prev = v[i];
+            i++;
+        } else {
             break;
         }
     }
