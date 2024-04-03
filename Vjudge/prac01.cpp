@@ -1,117 +1,83 @@
 #include<bits/stdc++.h>
+#define ll long long
+#define yes cout << "YES" << endl
+#define no cout << "NO" << endl
+#define testing cout << "testing ";
+#define mod 1000000007
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 using namespace std;
-#define int long long int
-#define Fast_IO() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
-const int N = 262144 + 10;
-const int mod = 1e9+7;
-int n,m;
-inline int ad(int x,int y)      				{int ret=(x%mod+y%mod)%mod;   if(ret<0)   {ret+=mod,ret=ret%mod;} return ret;}
-inline int gun(int x,int y)     				{int ret=((x%mod)*(y%mod))%mod;   if(ret<0)   {ret+=mod,ret=ret%mod;} return ret;}
 
-int a[N];
-int tree[4*N][20];
+int tree[800008];
+int arr[200002];
 
-void build(){
+
+int query(int node,int b,int e,int i, int j){
+
+    if(i>e or j<b) return -1;
+    if(b>=i and e<=j) return tree[node];
+
+    int left=node*2;
+    int right =node*2+1;
+    int mid=(b+e)/2;
+    int p1=query(left,b,mid,i,j);
+    int p2=query(right,mid+1,e,i,j);
+    return max(p1,p2);
+}
+
+void update(int node,int b,int e,int i,int newvalue){
+    if(i>e or i<b) return;
+    if(b>=i and e<=i){
+        tree[node]=newvalue;
+        return;
+    }
+    int left=2*node;
+    int right=node*2+1;
+    int mid=(b+e)/2;
+    update(left,b,mid,i,newvalue);
+    update(right,mid+1,e,i,newvalue);
+    tree[node]=max(tree[left],tree[right]);
+}
+
+
+
+void do_the_honour(){
+
+    int n;cin >> n;
+
+    vector<pair<int,int>>vp;
+
+    for(int i=0;i<4*n+4;i++) tree[i]=0;
+
     for(int i=0;i<n;i++){
-        tree[n+i][a[i]%m] = 1;
+        int x,y;cin >> x >> y;
+        vp.push_back({x,-y});
     }
 
-    for(int i=n-1;i>0;i--){
-        // tree[i] = tree[i<<1] + tree[i<<1|1];
-        for(int j=0;j<m;j++){
-            tree[i][j] = ad(tree[i<<1][j], tree[i<<1|1][j]);
-        }
+    sort(vp.begin(),vp.end());
 
-        for(int l=0;l<m;l++){
-            for(int r=0;r<m;r++){
-                int x = (l + r) % m;
-                tree[i][x] = ad(tree[i][x], gun(tree[i<<1][l], tree[i<<1|1][r]));
-            }
+    int ans=0;
+    for(int i=n-1;i>=0;i--){
+        if(i==n-1) ans++;
+        else{
+            if(query(1,0,n-1,i+1,n-1)<=-vp[i].second) ans++;
         }
-    }
-}
-
-int query(int l, int r){
-    int resl[20] = {0}, resr[20] = {0};
-    for(l+=n, r+=n; l<r; l >>=1 , r >>=1 ) {
-        if(l&1){
-            int temp[20] = {0};
-            for(int i=0;i<m;i++){
-                temp[i] = ad(resl[i], tree[l][i]);
-            }
-            for(int i=0;i<m;i++){
-                for(int j=0;j<m;j++){
-                    int x = (i + j) % m;
-                    temp[x] = ad(temp[x], gun(resl[i], tree[l][j]));
-                }
-            }
-            for(int i=0;i<m;i++){
-                resl[i] = temp[i];
-            }
-            l++;
-        }
-        if(r&1){
-            r--;
-            int temp[20] = {0};
-            for(int i=0;i<m;i++){
-                temp[i] = ad(resr[i], tree[r][i]);
-            }
-            for(int i=0;i<m;i++){
-                for(int j=0;j<m;j++){
-                    int x = (i + j) % m;
-                    temp[x] = ad(temp[x], gun(resr[i], tree[r][j]));
-                }
-            }
-            for(int i=0;i<m;i++){
-                resr[i] = temp[i];
-            }
-        }
+        update(1,0,n-1,i,-vp[i].second);
     }
 
-    int temp[20] = {0};
-    for(int i=0;i<m;i++){
-        temp[i] = ad(resl[i], resr[i]);
-    }
-    for(int i=0;i<m;i++){
-        for(int j=0;j<m;j++){
-            int x = (i + j) % m;
-            temp[x] = ad(temp[x], gun(resl[i], resr[j]));
-        }
-    }
-    return temp[0];
+    cout << ans << endl;
 
 }
 
+int main(){
+    optimize();
+    int t=1;
+    cin>>t;
+    for(int z=1;z<=t;z++){
 
 
-void solve(){
+    do_the_honour();
 
-    cin >> n >> m;
-    for(int i=0;i<n;i++){
-        cin >> a[i];
-    }
-    int x = log2(n);
-    if((1 << x) == n) n = n;
-    else n = (1 << (x+1));
-
-    build();
-
-    int q; cin >> q;
-    while(q--){
-        int l,r; cin >> l >> r;
-        l--;
-        cout << query(l, r) + 1 << endl;
-    }
 
 }
-
-
-signed main(){
-    Fast_IO()
-    int t = 1;
-    // cin >> t;
-    for(int i=1;i<=t;i++){
-        // cout << "Case " << t << ": ";
-        solve();
-    }
+    return 0;
 }
