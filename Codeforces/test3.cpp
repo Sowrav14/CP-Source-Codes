@@ -5,7 +5,10 @@ using namespace std;
 
 void solve(){
 
-    
+    string s; cin >> s;
+    if(s.front() == 't') cout << "YES" << endl;
+    else if(s.back() == 't') cout << "YES" << endl;
+    else cout << "NO" << endl;
 
 }
 
