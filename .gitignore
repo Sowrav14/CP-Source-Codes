@@ -8,3 +8,6 @@
 
 # negative git ignore tells that should not ignore
 # ! file/folder/ext
+
+.cph/
+.vscode/
