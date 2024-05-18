@@ -1,5 +1,10 @@
- # file name with extension for ignore particular file
- # Course_Schedule.bin
+# file name with extension for ignore particular file
+# Course_Schedule.bin
 
- # * .ext for ignore all file of particular extension
+# * .ext for ignore all file of particular extension
 * .bin
+
+# dir/ to ignore particular directory. 
+
+# negative git ignore tells that should not ignore
+# ! file/folder/ext
