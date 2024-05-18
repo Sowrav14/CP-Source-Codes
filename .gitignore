@@ -2,7 +2,7 @@
 # Course_Schedule.bin
 
 # * .ext for ignore all file of particular extension
-* .bin
+*.bin
 
 # dir/ to ignore particular directory. 
 
