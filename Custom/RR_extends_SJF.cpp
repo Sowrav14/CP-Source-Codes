@@ -42,7 +42,7 @@ int main(){
     tq.push({-bt[0], pid[0]});
     it = ft = at[0];
     int cnt = 0;
-    
+    int cs = 0;
     while(1){
         if(rq.empty() and tq.empty() and ft>at.back()) break;
         // placing temporary queue in ready queue...
@@ -55,7 +55,7 @@ int main(){
         int id = rq.top().second;
         // cout << "ready queue now " << endl;
         // printer(rq);
-
+        
         while(!rq.empty()){
             int cpid = rq.top().second;
             int cbt = -rq.top().first;
@@ -73,6 +73,7 @@ int main(){
                 tq.push({-cbt, cpid});
                 ft += timeq;
                 vis[cpid] = 1;
+                cs++;
                 // cout << "rr applying " << cpid << " " << cbt << endl;
             } else{
                 // cout << "ending by burst time " << cpid << " " << cbt << endl;
@@ -91,7 +92,15 @@ int main(){
 
 
     // cout << "check complete time " << endl; 
+    int ttt = 0, twt = 0;
     for(int i=0;i<n;i++){
         cout << pid[i] << " " << at[i] << " " << bt[i] << " " << ct[i] << endl;
+        tt[i] = ct[i] - at[i];
+        wt[i] = tt[i] - bt[i];
+        ttt += tt[i];
+        twt += wt[i];
     }
+    cout << cs << endl;
+    cout << "awt = " << ttt/4.0 << endl;
+    cout << "att = " << twt/4.0 << endl;
 }
