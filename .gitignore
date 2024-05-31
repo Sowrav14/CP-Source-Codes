@@ -3,6 +3,7 @@
 
 # * .ext for ignore all file of particular extension
 *.bin
+*.exe
 
 # dir/ to ignore particular directory. 
 
