@@ -12,3 +12,5 @@
 
 .cph/
 .vscode/
+
+test*
