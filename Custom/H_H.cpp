@@ -22,7 +22,6 @@ void dfs(int u){
 void solve(){
 
     int n,m; cin >> n >> m;
-    vector<int>ind(n+1, 0), outd(n+1, 0);
     for(int i=0;i<m;i++){
         int u,v; cin >> u >> v;
         g[u].push_back(v);
@@ -34,11 +33,11 @@ void solve(){
     }
     int tin = 0, tout = 0;
     for(int i=1;i<=n;i++){
-        cout << ind[i] << " " << outd[i] << endl;
-        tin += (ind[i] > 0);
-        tout += (outd[i] > 0);
+        // cout << ind[i] << " " << outd[i] << endl;
+        tin += (in[i] > 0);
+        tout += (out[i] > 0);
     }
-
+    cout << tin << " " << tout << endl;
     cout << max((n - tin), (n - tout)) << endl;
 
 }

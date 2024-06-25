@@ -1,104 +1,100 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-#define int long long int
-#define Fast_IO() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 
-void solve(){
+// Perform DFS to count the in-degree
+// and out-degree of the graph
+void dfs(int u, vector<int> adj[], int* vis, int* inDeg,
+         int* outDeg)
+{
+    // Mark the source as visited
+    vis[u] = 1;
 
-    int n; cin >> n;
-    vector<int>a(n), b(n);
-    for(int i=0;i<n;i++){
-        cin >> a[i];
-    }
-    for(int i=0;i<n;i++){
-        cin >> b[i];
-    }
-    if(a == b){
-        cout << 0 << endl;
-        return;
-    }
+    // Traversing adjacent nodes
+    for (auto v : adj[u])
+    {
+        // Mark out-degree as 1
+        outDeg[u] = 1;
+        // Mark in-degree as 1
+        inDeg[v] = 1;
 
-    vector<int>lm(n, n+1), rm(n, -2);
-    int l=-1;
-    for(int i=0;i<n;i++){
-        int x = b[i];
-        int flag = 0;
-        for(int j=l+1;j<n;j++){
-            if(a[j] == x){
-                lm[i] = j;
-                l = j;
-                flag = 1;
-                break;
-            }
-        }
-        if(flag == 0){
-            break;
+        // If not visited
+        if (vis[v] == 0)
+        {
+            // DFS Traversal on
+            // adjacent vertex
+            dfs(v, adj, vis, inDeg, outDeg);
         }
     }
-
-
-
-    int r=n;
-    for(int i=n-1;i>=0;i--){
-        int x = b[i];
-        int flag = 0;
-        for(int j=r-1;j>=0;j--){
-            if(a[j] == x){
-                rm[i] = j;
-                r = j;
-                flag = 1;
-                break;
-            }
-        }
-        if(flag == 0){
-            break;
-        }
-    }
-
-    // for(int i=0;i<n;i++) cout << lm[i] << " "; cout << endl;
-    // for(int i=0;i<n;i++) cout << rm[i] << " "; cout << endl;
-
-    int ans = n;
-    for(int i=0;i<n;i++){
-        for(int j=i;j<n;j++){
-            // removeing i to j
-            int res = j - i + 1;
-            // res = n - res;
-
-            int x = -1;
-            int y = n;
-
-            if(i-1>=0) x = lm[i-1];
-            if(j+1<n) y = rm[j+1];
-            // if(i == 5 and j == 7){
-            //     cout << res << endl;
-            //     cout << x << " " << y << endl;
-            // }
-            if(x == n+1) continue;
-            if(y == -2) continue;
-            // if(x == -1 or y == -1) break;
-            if(x < y){
-                ans = min(ans, res);
-            }
-            // if(res == 1){
-            //     cout << i << " " << j << endl;
-            // }
-        }
-    }
-
-    cout << ans << endl;
-
-
-
 }
 
+// Function to return minimum number
+// of edges required to make the graph
+// strongly connected
+int findMinimumEdges(int source[], int N, int M, int dest[])
+{
+    // For Adjacency List
+    vector<int> adj[N + 1];
 
-signed main(){
-    Fast_IO()
-    int t = 1;
-    cin >> t;
-    for(int i=1;i<=t;i++){
-        cout << "Case " << i << ": ";
-        solve();
+    // Create the Adjacency List
+    for (int i = 0; i < M; i++)
+    {
+        adj[source[i]].push_back(dest[i]);
     }
+
+    // Initialize the in-degree array
+    int inDeg[N + 1] = {0};
+
+    // Initialize the out-degree array
+    int outDeg[N + 1] = {0};
+
+    // Initialize the visited array
+    int vis[N + 1] = {0};
+
+    // Perform DFS from all unvisited vertices
+    for (int i = 1; i <= N; ++i)
+    {
+        if (vis[i] == 0)
+        {
+            dfs(i, adj, vis, inDeg, outDeg);
+        }
+    }
+
+    // To store the result
+    int minEdges = 0;
+
+    // To store total count of in-degree
+    // and out-degree
+    int totalIndegree = 0;
+    int totalOutdegree = 0;
+
+    // Find total in-degree
+    // and out-degree
+    for (int i = 1; i <= N; i++)
+    {
+        if (inDeg[i] == 1)
+            totalIndegree++;
+        if (outDeg[i] == 1)
+            totalOutdegree++;
+    }
+
+    // Calculate the minimum
+    // edges required
+    minEdges = max(N - totalIndegree, N - totalOutdegree);
+    cout << totalIndegree << " " << totalOutdegree << endl;
+
+    // Return the minimum edges
+    return minEdges;
+}
+
+// Driver Code
+int main()
+{
+    int N = 7, M = 7;
+
+    int source[] = {1, 2, 3, 6, 6, 4, 7};
+    int destination[] = {2, 3, 1, 1, 4, 5, 6};
+
+    // Function call
+    cout << findMinimumEdges(source, N, M, destination);
+    return 0;
 }
