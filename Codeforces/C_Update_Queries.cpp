@@ -19,12 +19,9 @@ void solve(){
     }
     sort(c.begin(), c.end());
 
-    // for(int i=0;i<v.size();i++) cout << v[i] << " "; cout << endl;
-    // for(int i=0;i<m;i++) cout << c[i] << " "; cout << endl;
-
     for(int i=0;i<v.size();i++){
         int id = v[i];
-        a[id-1] = c[i];
+        a[id] = c[i];
     }
 
     cout << a << endl;
