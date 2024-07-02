@@ -2,151 +2,106 @@
 using namespace std;
 #define int long long int
 #define Fast_IO() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+const int N = 1000 + 10;
+int a[N][N];
 
-int ini_seg[4040][4040] = {0};    // initial segment tree.
-int fin_seg[4040][4040] = {0};    // final segment tree.
-int grid[1040][1040];             // given 2D grid.
-int size;                         // size of x coordinate.
-
-/* 
-* A recursive function that constructs Initial Segment Tree for array grid[][] = { }. 
-* 'pos' is index of current node in segment tree seg[].
-* 'strip' is the enumeration for the y-axis. 
-* Call it with segment(0, n-1, 1, strip) for every strip in range(0, n-1)
-*/
-void segment(int low, int high, int pos, int strip) { 
-    if (high == low) { 
-        ini_seg[strip][pos] = grid[strip][low]; 
-    } 
-    else { 
-        int mid = (low + high) / 2; 
-        segment(low, mid, 2 * pos, strip); 
-        segment(mid + 1, high, 2 * pos + 1, strip); 
-        ini_seg[strip][pos] = ini_seg[strip][2 * pos] + ini_seg[strip][2 * pos + 1]; 
-    } 
-} 
-
-/* 
-* A recursive function that constructs Final Segment Tree for array ini_seg[][] = { }.
-* Call it with finalSegment(0, n-1, 1) once.
-*/
-void finalSegment(int low, int high, int pos) { 
-    if (high == low) { 
-        for (int i = 1; i < 2 * size; i++) fin_seg[pos][i] = ini_seg[low][i];
-    } 
-    else { 
-        int mid = (low + high) / 2; 
-        finalSegment(low, mid, 2 * pos); 
-        finalSegment(mid + 1, high, 2 * pos + 1); 
-        for (int i = 1; i < 2 * size; i++)
-            fin_seg[pos][i] = fin_seg[2 * pos][i] + fin_seg[2 * pos + 1][i];
-    } 
-} 
-
-/* 
-* Return sum of elements in range from index x1 to x2 .
-* It uses the final_seg[][] array created using finalsegment() function. 
-* 'pos' is index of current node in segment tree fin_seg[][]. 
-* Don't call it for query it will be called by Query().
-*/
-int finalQuery(int pos, int start, int end, int x1, int x2, int node) { 
-    if (x2 < start || end < x1) return 0;
-    if (x1 <= start && end <= x2) return fin_seg[node][pos];
-
-    int mid = (start + end) / 2; 
-    int p1 = finalQuery(2 * pos, start, mid, x1, x2, node); 
-    int p2 = finalQuery(2 * pos + 1, mid + 1, end, x1, x2, node); 
-
-    return (p1 + p2); 
-} 
-
-/* 
-* This function calls the finalQuery function for elements in range from index x1 to x2 . 
-* This function queries the yth coordinate.
-* Call it with query(1, 1, n, y1, y2, x1, x2) to get sum between grid[x1][y1] -> grid[x2][y2] 
-*/
-int query(int pos, int start, int end, int y1, int y2, int x1, int x2) { 
-    if (y2 < start || end < y1) return 0;
-    if (y1 <= start && end <= y2) return (finalQuery(1, 1, size, x1, x2, pos));
-
-    int mid = (start + end) / 2; 
-    int p1 = query(2 * pos, start, mid, y1, y2, x1, x2); 
-    int p2 = query(2 * pos + 1, mid + 1, end, y1, y2, x1, x2); 
-
-    return (p1 + p2); 
-} 
-
-/* 
-* A recursive function to update the nodes which for the given index.
-* The following are parameters : 
-*     pos --> index of current node in segment tree fin_seg[][].
-*     x -> index of the element to be updated.
-*     val --> Value to be change at node idx.
-* No need to call it query will call it.
-*/
-void finalUpdate(int pos, int low, int high, int x, int val, int node) { 
-    if (low == high) { 
-        fin_seg[node][pos] = val; 
-    } 
-    else { 
-        int mid = (low + high) / 2; 
-        if (low <= x && x <= mid) { 
-            finalUpdate(2 * pos, low, mid, x, val, node); 
-        } 
-        else { 
-            finalUpdate(2 * pos + 1, mid + 1, high, x, val, node); 
-        } 
-        fin_seg[node][pos] = fin_seg[node][2 * pos] + fin_seg[node][2 * pos + 1]; 
-    } 
-} 
-
-/* 
-* This function call the final update function after visiting the yth coordinate in the segment tree fin_seg[][].
-* Call it with update(1, 1, n, x, y, value) to update grid[x][y] with value. 
-*/
-void update(int pos, int low, int high, int x, int y, int val) { 
-    if (low == high) { 
-        finalUpdate(1, 1, size, x, val, pos); 
-    } 
-    else { 
-        int mid = (low + high) / 2; 
-        if (low <= y && y <= mid) { 
-            update(2 * pos, low, mid, x, y, val); 
-        } 
-        else { 
-            update(2 * pos + 1, mid + 1, high, x, y, val); 
-        } 
-        for (int i = 1; i < 2 * size; i++) 
-            fin_seg[pos][i] = fin_seg[2 * pos][i] + fin_seg[2 * pos + 1][i]; 
-    } 
-} 
-
-void solve() {
-    int n, q; cin >> n >> q;
-    size = n;
-
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
-            char ch; cin >> ch;
-            grid[i][j] = (ch == '*' ? 1 : 0);
+// Structuring Segment Tree...
+struct SegmentTree {
+    int n,m;
+	int tree[4010][4010];
+	SegmentTree() {
+		memset(tree, 0, sizeof(tree));
+	}
+    SegmentTree(int n_, int m_) : n(n_), m(m_) {
+        memset(tree, 0, sizeof(tree));
+    }
+	void build_y(int vx, int lx, int rx, int vy, int ly, int ry) {
+        if (ly == ry) {
+            if (lx == rx)
+                tree[vx][vy] = a[lx][ly];
+            else
+                tree[vx][vy] = tree[vx*2][vy] + tree[vx*2+1][vy];
+        } else {
+            int my = (ly + ry) / 2;
+            build_y(vx, lx, rx, vy*2, ly, my);
+            build_y(vx, lx, rx, vy*2+1, my+1, ry);
+            tree[vx][vy] = tree[vx][vy*2] + tree[vx][vy*2+1];
         }
     }
 
-    // Initializing segment tree.
-    for (int strip = 0; strip < n; strip++) segment(0, n-1, 1, strip); 
-    finalSegment(0, n-1, 1);
-
-    while(q--) {
-        int x1, y1, x2, y2; cin >> y1 >> x1 >> y2 >> x2;
-        cout << query(1, 1, n, y1, y2, x1, x2) << endl;
+    void build_x(int vx, int lx, int rx) {
+        if (lx != rx) {
+            int mx = (lx + rx) / 2;
+            build_x(vx*2, lx, mx);
+            build_x(vx*2+1, mx+1, rx);
+        }
+        build_y(vx, lx, rx, 1, 1, m);
     }
+
+    int sum_y(int vx, int vy, int tly, int try_, int ly, int ry) {
+        if (ly > ry) return 0;
+        if (ly == tly && try_ == ry) return tree[vx][vy];
+        int tmy = (tly + try_) / 2;
+        return sum_y(vx, vy*2, tly, tmy, ly, min(ry, tmy)) + sum_y(vx, vy*2+1, tmy+1, try_, max(ly, tmy+1), ry);
+    }
+
+    int sum_x(int vx, int tlx, int trx, int lx, int rx, int ly, int ry) {
+        if (lx > rx) return 0;
+        if (lx == tlx && trx == rx) return sum_y(vx, 1, 1, m, ly, ry);
+        int tmx = (tlx + trx) / 2;
+        return sum_x(vx*2, tlx, tmx, lx, min(rx, tmx), ly, ry) + sum_x(vx*2+1, tmx+1, trx, max(lx, tmx+1), rx, ly, ry);
+    }
+
+    void update_y(int vx, int lx, int rx, int vy, int ly, int ry, int x, int y, int new_val) {
+        if (ly == ry) {
+            if (lx == rx) tree[vx][vy] = new_val;
+            else tree[vx][vy] = tree[vx*2][vy] + tree[vx*2+1][vy];
+        } else {
+            int my = (ly + ry) / 2;
+            if (y <= my) update_y(vx, lx, rx, vy*2, ly, my, x, y, new_val);
+            else update_y(vx, lx, rx, vy*2+1, my+1, ry, x, y, new_val);
+            tree[vx][vy] = tree[vx][vy*2] + tree[vx][vy*2+1];
+        }
+    }
+
+    void update_x(int vx, int lx, int rx, int x, int y, int new_val) {
+        if (lx != rx) {
+            int mx = (lx + rx) / 2;
+            if (x <= mx) update_x(vx*2, lx, mx, x, y, new_val);
+            else update_x(vx*2+1, mx+1, rx, x, y, new_val);
+        }
+        update_y(vx, lx, rx, 1, 1, m, x, y, new_val);
+    }
+};
+
+
+void solve(){
+
+    int n,q; cin >> n >> q;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++){
+            char ch; cin >> ch;
+            a[i][j] = (ch == '.' ? 0 : 1);
+        }
+    }
+
+    SegmentTree st(n, n);
+    st.build_x(1, 1, n);
+    // cout << st.sum_x(1, 1, n, 4, 4, 1, 4) << endl;
+    while(q--){
+        int x1, y1, x2, y2; cin >> x1 >> y1 >> x2 >> y2;
+        cout << st.sum_x(1, 1, n, x1, x2, y1, y2) << endl;
+    }
+
+
 }
 
-signed main() {
+
+signed main(){
     Fast_IO()
     int t = 1;
     // cin >> t;
-    for(int i = 1; i <= t; i++) {
+    for(int i=1;i<=t;i++){
         // cout << "Case " << t << ": ";
         solve();
     }
