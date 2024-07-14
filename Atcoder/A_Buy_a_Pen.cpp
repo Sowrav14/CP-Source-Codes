@@ -5,7 +5,19 @@ using namespace std;
 
 void solve(){
 
-    
+    int r,g,b; cin >> r >> g >> b;
+    string s; cin >> s;
+    int ans = INT_MAX;
+    if(s != "Red"){
+        ans = min(ans, r);
+    }
+    if(s != "Green"){
+        ans = min(ans, g);
+    }
+    if(s != "Blue"){
+        ans = min(ans, b);
+    }
+    cout << ans << endl;
 
 }
 
@@ -13,7 +25,7 @@ void solve(){
 signed main(){
     Fast_IO()
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for(int i=1;i<=t;i++){
         // cout << "Case " << t << ": ";
         solve();

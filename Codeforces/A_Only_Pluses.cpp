@@ -5,7 +5,23 @@ using namespace std;
 
 void solve(){
 
+    multiset<int> ms;
+    int a,b,c; cin >> a >> b >> c;
+    ms.insert(a); ms.insert(b), ms.insert(c);
+
+    for(int i=1;i<=5;i++){
+        int x = *ms.begin(); x++;
+        ms.erase(ms.begin());
+        ms.insert(x);
+    }
+
+    int ans = 1;
+    for(auto i : ms){
+        ans *= i;
+    }
+    cout << ans << endl;
     
+
 
 }
 

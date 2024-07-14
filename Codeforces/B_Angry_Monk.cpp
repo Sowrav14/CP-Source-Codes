@@ -5,7 +5,18 @@ using namespace std;
 
 void solve(){
 
-    
+    int n,k; cin >> n >> k;
+    vector<int>v(k);
+    for(int i=0;i<k;i++){
+        cin >> v[i];
+    }
+    sort(v.begin(), v.end());
+
+    int ans = 0;
+    for(int i=0;i<k-1;i++){
+        ans += (v[i] - 1) + v[i];
+    }
+    cout << ans << endl;
 
 }
 

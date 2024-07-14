@@ -5,7 +5,8 @@ using namespace std;
 
 void solve(){
 
-    
+    int n; cin >> n;
+    cout << (n-1) / 2 << endl;
 
 }
 
@@ -13,7 +14,7 @@ void solve(){
 signed main(){
     Fast_IO()
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for(int i=1;i<=t;i++){
         // cout << "Case " << t << ": ";
         solve();
