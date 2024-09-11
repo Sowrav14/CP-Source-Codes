@@ -27,7 +27,7 @@ using namespace std;
 
 // Global Variables...
 const int N = 2*1e5+10;
-const int M = 1e9+7;
+int M = 1e9+7;
 
 // Inline Function...
 inline int bigmod(int x,int y);
@@ -48,7 +48,11 @@ inline int inverse(int a, int m)                { int x, y; int g = egcd(a, m, x
 void solve(){
 
     int a, b, c; cin >> a >> b >> c;
-    cout << bigmod(bigmod(a, b), c) << endl;
+    M = 1e9+6;
+    int x = bigmod(b, c);
+    M = 1e9+7;
+    int y = bigmod(a, x);
+    cout << y << endl;
 
 }
 
