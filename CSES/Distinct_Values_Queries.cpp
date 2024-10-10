@@ -1,3 +1,13 @@
+/**
+ * @file Distinct_Values_Queries.cpp
+ * @author Sowrav Nath (Sowravnath05102002@gmail.com)
+ * @version 0.1
+ * @date 2024-10-10
+ * @copyright Copyright (c) 2024
+ * @problem: distinct value in range queries
+ * @approach: bit
+ */
+
 #include <bits/stdc++.h>
 using namespace std;
 
