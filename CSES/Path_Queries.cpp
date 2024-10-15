@@ -14,7 +14,7 @@ int val[mxN];
 void update(int k, int x) {
     k += N; seg[k] = x; k >>= 1;
     while (k > 0) {
-        seg[k] = max(seg[2 * k], seg[2 * k + 1]);
+        seg[k] = seg[2 * k] + seg[2 * k + 1];
         k >>= 1;
     }
 }
@@ -24,11 +24,11 @@ int query(int a, int b) {
     int s = 0;
     while (a <= b) {
         if (a & 1) {
-            s = max(s, seg[a]);
+            s = s + seg[a];
             a++;
         }
         if (~b & 1) {
-            s = max(s, seg[b]);
+            s = s + seg[b];
             b--;
         }
         a >>= 1, b >>= 1;
@@ -54,7 +54,7 @@ void hld(int s, int h) {
     id[s] = ++cnt;
     update(id[s] - 1, val[s]);
     if (heavy[s]) hld(heavy[s], h);
-    for (auto i : adj[s]) {
+    for (auto i: adj[s]) {
         if (i != par[s] && i != heavy[s]) hld(i, i);
     }
 }
@@ -63,11 +63,11 @@ int path(int x, int y){
     int ans = 0;
     while (head[x] != head[y]) {
         if (depth[head[x]] > depth[head[y]]) swap(x, y);
-        ans = max(ans, query(id[head[y]] - 1, id[y] - 1));
+        ans = ans + query(id[head[y]] - 1, id[y] - 1);
         y = par[head[y]];
     }
     if(depth[x] > depth[y]) swap(x, y);
-    ans = max(ans, query(id[x] - 1, id[y] - 1));
+    ans = ans + query(id[x] - 1, id[y] - 1);
     return ans;
 }
 
@@ -77,7 +77,7 @@ void solve(){
     int n, t; cin >> n >> t;
     N = 1 << (int) ceil(log2(n));
     for (int i = 1; i <= n; i++){ 
-        cin >> val[i];
+        cin>>val[i];
     }
 
     for (int i = 1; i < n; i++) {
@@ -96,8 +96,8 @@ void solve(){
             update(id[k] - 1, x);
         }
         else {
-            int x, y; cin >> x >> y;
-            cout << path(x, y) << ' ';
+            int x; cin >> x;
+            cout << path(x, 1) << '\n';
         }
     }
 
