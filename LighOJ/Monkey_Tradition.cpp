@@ -26,8 +26,6 @@ using namespace std;
 #define ici                 cout << "Je suis ici" << endl
 
 // Global Variables...
-const int N = 2*1e5+10;
-const int M = 1e9+7;
 
 // Inline Function...
 inline int bigmod(int x,int y, int mod);
@@ -44,89 +42,96 @@ inline int inverse(int a, int mod)              { int x, y; int g = egcd(a, mod,
 // S.order_of_key (k) : Number of items strictly smaller than k .
 // S.find_by_order(k) : K-th element in a set (counting from zero).
 
-int a[N];
 
-struct SegmentTree {
-    #define lc (n << 1)
-    #define rc ((n << 1) | 1)
-    int tree[4*N], lazy[4*N];
 
-    SegmentTree(){
-        memset(tree, 0, sizeof tree);
-        memset(lazy, 0, sizeof lazy);
+/* Calculate ( a*b ) % c */
+int mulmod(int a, int b, int c) {
+    int x = 0 , y = a % c ;
+    while(b>0) {
+        if(b%2) x = (x + y) % c ;
+        y = (y * 2) % c;
+        b /= 2;
     }
+    return x % c ;
+}
 
-    inline void push(int n, int b, int e, int f=0){
-        if(lazy[n] == 0) return;
-        tree[n] = (f==1 ? lazy[n] : tree[n] + lazy[n]);
-        if(b != e){
-            lazy[lc] = (f==1 ? lazy[lc] : lazy[lc] + lazy[n]);
-            lazy[rc] = (f==1 ? lazy[rc] : lazy[rc] + lazy[n]);
-        }
-        lazy[n] = 0;
+/* Calculate ( a^b ) % c */
+int modulo(int a, int b, int c) {
+    int x = 1 , y = a % c;
+    while( b > 0 ) {
+        if(b%2) x = mulmod(x, y, c) ;
+        y = mulmod(y, y, c);
+        b /= 2;
     }
-    inline int combine(int a, int b){
-        return a + b;
+    return x % c;
+}
+
+int modulus_Inverse(int A, int MOD) {
+    return modulo(A,MOD-2, MOD);
+}
+
+// ax + by = __gcd(a, b)
+// returns __gcd(a, b)
+int extended_euclid(int a, int b, int &x, int &y) {
+    int xx = y = 0;
+    int yy = x = 1;
+    while (b) {
+        int q = a / b;
+        int t = b; b = a % b; a = t;
+        t = xx; xx = x - q * xx; x = t;
+        t = yy; yy = y - q * yy; y = t;
     }
-    inline void pull(int n){
-        tree[n] = tree[lc] + tree[rc];
-    }
-    void build(int n, int b, int e){
-        lazy[n] = 0;
-        if(b == e){
-            tree[n] = a[b];
-            return;
-        }
-        int mid = (b + e) >> 1;
-        build(lc, b, mid);
-        build(rc, mid+1, e);
-        pull(n);
-    }
-    void update(int n, int b, int e, int i, int j, int v, int ty){
-        push(n, b, e);
-        if(j < b or e < i) return;
-        if(i <= b and e <= j){
-            lazy[n] = v;
-            push(n, b, e, ty);
-            return;
-        }
-        int mid = (b + e) >> 1;
-        update(lc, b, mid, i, j, v, ty);
-        update(rc, mid + 1, e, i, j, v, ty);
-        pull(n);
-    }
-    int query(int n, int b, int e, int i, int j){
-        // push(n, b, e);
-        if(i > e or b > j) return 0;
-        if(i <= b and e <= j) return tree[n];
-        int mid = (b + e) >> 1;
-        return combine(query(lc, b, mid, i, j), query(rc, mid+1, e, i, j));
-    }
+    return a;
+}
+
+// finds x such that x % m1 = a1, x % m2 = a2. m1 and m2 may not be coprime
+// here, x is unique modulo m = lcm(m1, m2). returns (x, m). on failure, m = -1.
+pair<int, int> CRT(int a1, int m1, int a2, int m2) {
+    int p, q;
+    int g = extended_euclid(m1, m2, p, q);
+    if (a1 % g != a2 % g) return make_pair(0, -1);
+    int m = m1 / g * m2;
+    p = (p % m + m) % m;
+    q = (q % m + m) % m;
+    return make_pair((p * a2 % m * (m1 / g) % m + q * a1 % m * (m2 / g) % m) %  m, m);
+}
+
+struct Congruence {
+    int a, m;
+    Congruence(int a, int m) : a(a), m(m) {}
 };
+
+int chinese_remainder_theorem(vector<Congruence> const& congruences) {
+    int M = 1;
+    for (auto const& congruence : congruences) {
+        M *= congruence.m;
+    }
+
+    int solution = 0;
+    for (auto const& congruence : congruences) {
+        int a_i = congruence.a;
+        int M_i = M / congruence.m;
+        int N_i = modulus_Inverse(M_i, congruence.m);
+        int S = mulmod(M_i, N_i, M);
+        S = mulmod(S, a_i, M);
+        solution = ad(solution, S, M);;
+    }
+    return solution;
+}
+
 
 void solve(){
 
-    int n, q; cin >> n >> q;
-    for(int i=1;i<=n;i++){
-        cin >> a[i];
+    int n; cin >> n;
+    vector<Congruence> cgs;
+    
+    for(int i=0;i<n;i++){
+        int m, a; cin >> m >> a;
+        cgs.push_back(Congruence(a, m));
     }
-
-    SegmentTree st;
-    st.build(1, 1, n);
-
-    while(q--){
-        int t; cin >> t;
-        if(t == 3){
-            int a, b; cin >> a >> b;
-            cout << st.query(1, 1, n, a, b) << endl;
-        } else if(t == 1){
-            int a, b, x; cin >> a >> b >> x;
-            st.update(1, 1, n, a, b, x, 0);
-        } else {
-            int a, b, x; cin >> a >> b >> x;
-            st.update(1, 1, n, a, b, x, 1);
-        }
-    }
+    
+    int ans = chinese_remainder_theorem(cgs);
+    cout << ans << endl;
 
 }
 
@@ -134,9 +139,9 @@ void solve(){
 signed main(){
     Sowrav_Nath
     int test_cases = 1;
-    // cin >> test_cases;
+    cin >> test_cases;
     for(int test_case=1;test_case<=test_cases;test_case++){
-        // cout << "Case " << i << ": ";
+        cout << "Case " << test_case << ": ";
         // memset(dp,0,n*sizeof(int));
         solve();
     }

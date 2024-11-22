@@ -26,8 +26,8 @@ using namespace std;
 #define ici                 cout << "Je suis ici" << endl
 
 // Global Variables...
-const int N = 2*1e5+10;
-const int M = 1e9+7;
+const int N = 3*1e5+10;
+const int M = 998244353;
 
 // Inline Function...
 inline int bigmod(int x,int y, int mod);
@@ -44,88 +44,71 @@ inline int inverse(int a, int mod)              { int x, y; int g = egcd(a, mod,
 // S.order_of_key (k) : Number of items strictly smaller than k .
 // S.find_by_order(k) : K-th element in a set (counting from zero).
 
-int a[N];
+int f[N],invf[N];
 
-struct SegmentTree {
-    #define lc (n << 1)
-    #define rc ((n << 1) | 1)
-    int tree[4*N], lazy[4*N];
 
-    SegmentTree(){
-        memset(tree, 0, sizeof tree);
-        memset(lazy, 0, sizeof lazy);
+// Big Mod
+int A_pow_B(int a,int b){
+    int ret = 1;
+    while(b){
+        if(b&1) {
+            ret = (1ll * ret%M * a%M) % M;
+        }
+        a = (1ll * a%M * a%M) % M;
+        b >>= 1;
+    }
+    return ret;
+}
+
+
+
+// Calculating factorials and inverse factorial
+void fact_invfact(){
+    f[0] = 1;
+    for(int i=1;i<N;i++){
+        f[i] = (1ll * f[i-1]%M * i%M) % M;
     }
 
-    inline void push(int n, int b, int e, int f=0){
-        if(lazy[n] == 0) return;
-        tree[n] = (f==1 ? lazy[n] : tree[n] + lazy[n]);
-        if(b != e){
-            lazy[lc] = (f==1 ? lazy[lc] : lazy[lc] + lazy[n]);
-            lazy[rc] = (f==1 ? lazy[rc] : lazy[rc] + lazy[n]);
-        }
-        lazy[n] = 0;
+    // calculate fact inverse
+    invf[N-1] = A_pow_B(f[N-1],M-2);
+    for(int i=N-2;i>=0;i--){
+        invf[i] = (1ll * invf[i+1]%M * (i+1)%M) % M;
     }
-    inline int combine(int a, int b){
-        return a + b;
-    }
-    inline void pull(int n){
-        tree[n] = tree[lc] + tree[rc];
-    }
-    void build(int n, int b, int e){
-        lazy[n] = 0;
-        if(b == e){
-            tree[n] = a[b];
-            return;
-        }
-        int mid = (b + e) >> 1;
-        build(lc, b, mid);
-        build(rc, mid+1, e);
-        pull(n);
-    }
-    void update(int n, int b, int e, int i, int j, int v, int ty){
-        push(n, b, e);
-        if(j < b or e < i) return;
-        if(i <= b and e <= j){
-            lazy[n] = v;
-            push(n, b, e, ty);
-            return;
-        }
-        int mid = (b + e) >> 1;
-        update(lc, b, mid, i, j, v, ty);
-        update(rc, mid + 1, e, i, j, v, ty);
-        pull(n);
-    }
-    int query(int n, int b, int e, int i, int j){
-        // push(n, b, e);
-        if(i > e or b > j) return 0;
-        if(i <= b and e <= j) return tree[n];
-        int mid = (b + e) >> 1;
-        return combine(query(lc, b, mid, i, j), query(rc, mid+1, e, i, j));
-    }
-};
+}
+
+
+// Calculating nCr
+int nCr(int n, int r){
+    if(n < 0 or n < r) return 0;
+    return (1ll * f[n]%M * invf[n-r]%M * invf[r]%M) % M ; 
+}
+
+
+// Calculating nPr
+int nPr(int n, int r){
+    if(n < 0 or n < r) return 0;
+    return (1ll * f[n]%M * invf[n-r]%M) % M;
+}
+
 
 void solve(){
 
-    int n, q; cin >> n >> q;
-    for(int i=1;i<=n;i++){
-        cin >> a[i];
+    int n; cin >> n;
+    vector<int> r(n), g(n);
+    f(i,n) cin >> r[i];
+    f(i,n) cin >> g[i];
+
+    int s = 0;
+    f(i,n){
+        s = ad(s, ad(r[i], g[i], M), M);
     }
 
-    SegmentTree st;
-    st.build(1, 1, n);
+    int x = inverse_mod(2*n, M);
 
-    while(q--){
-        int t; cin >> t;
-        if(t == 3){
-            int a, b; cin >> a >> b;
-            cout << st.query(1, 1, n, a, b) << endl;
-        } else if(t == 1){
-            int a, b, x; cin >> a >> b >> x;
-            st.update(1, 1, n, a, b, x, 0);
-        } else {
-            int a, b, x; cin >> a >> b >> x;
-            st.update(1, 1, n, a, b, x, 1);
-        }
+    f1(i,n){
+        int ans = gun(i, s, M);
+        ans = gun(ans, x, M);
+        cout << ans << " \n"[i == n];
     }
 
 }
