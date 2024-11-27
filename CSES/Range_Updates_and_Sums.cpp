@@ -1,143 +1,103 @@
 #include<bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-
-using namespace __gnu_pbds;
 using namespace std;
+#define int long long
+#define pb push_back
+#define F first
+#define S second
 
-// Macros...
-#define int                 long long int
-#define pii                 pair<int,int>
-#define ordered_set         tree<int, null_type, less_equal<int>,rb_tree_tag,tree_order_statistics_node_update>
-#define Sowrav_Nath         ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
-#define f(i,n)              for(int i=0;i<n;i++)
-#define f1(i,n)             for(int i=1;i<=n;i++)
-#define rf(i,n)             for(int i=n-1;i>=0;i--)
-#define rf1(i,n)            for(int i=n;i>=1;i--)
-#define endl                '\n'
-#define pb                  push_back
-#define oui                 cout << "YES" << endl
-#define non                 cout << "NO" << endl
-#define homme               cout << "Bob" << endl
-#define femme               cout << "Alice" << endl
-#define un_de_minus         cout << "-1" << endl
-#define duck                cout << 0 << endl;
-#define reponse             cout << ans << endl
-#define ici                 cout << "Je suis ici" << endl
+const int inf = 1LL<<62;
+const int md = 1000000007;
 
-// Global Variables...
-const int N = 2*1e5+10;
-const int M = 1e9+7;
+pair<int,int> seg[1000005];
+int mark[1000005];
 
-// Inline Function...
-inline int bigmod(int x,int y, int mod);
-inline int inverse_mod(int n,int mod)           {return bigmod(n,mod-2, mod);}
-inline int ad(int x,int y, int mod)             {int ret=(x%mod+y%mod)%mod;   if(ret<0)   {ret+=mod,ret=ret%mod;} return ret;}
-inline int sub(int x,int y, int mod)            {int ret=((x%mod)-(y%mod)+mod)%mod;    if(ret<0)    {ret+=mod,ret=ret%mod;} return ret;}
-inline int gun(int x,int y, int mod)            {int ret=((x%mod)*(y%mod))%mod;   if(ret<0)   {ret+=mod,ret=ret%mod;} return ret;}
-inline int bigmod(int x,int y, int mod)         {int ret=1; while(y>0)  {if(y&1)    {ret=(ret*x)%mod;}    y>>=1;x=(x*x)%mod;}   return ret;}
-inline int egcd(int a,int b,int &x,int &y)      {if(a==0){ x=0; y=1; return b;} int x1,y1; int d=egcd(b%a,a,x1,y1); x=y1-(b/a)*x1; y=x1; return d;}
-inline int inverse(int a, int mod)              { int x, y; int g = egcd(a, mod, x, y); return (g != 1) ? -1 : (x % mod + mod) % mod; }
-
-
-// Ordered Set Tree
-// S.order_of_key (k) : Number of items strictly smaller than k .
-// S.find_by_order(k) : K-th element in a set (counting from zero).
-
-int a[N];
-
-struct SegmentTree {
-    #define lc (n << 1)
-    #define rc ((n << 1) | 1)
-    int tree[4*N], lazy[4*N];
-
-    SegmentTree(){
-        memset(tree, 0, sizeof tree);
-        memset(lazy, 0, sizeof lazy);
-    }
-
-    inline void push(int n, int b, int e, int f=0){
-        if(lazy[n] == 0) return;
-        tree[n] = (f==1 ? lazy[n] : tree[n] + lazy[n]);
-        if(b != e){
-            lazy[lc] = (f==1 ? lazy[lc] : lazy[lc] + lazy[n]);
-            lazy[rc] = (f==1 ? lazy[rc] : lazy[rc] + lazy[n]);
-        }
-        lazy[n] = 0;
-    }
-    inline int combine(int a, int b){
-        return a + b;
-    }
-    inline void pull(int n){
-        tree[n] = tree[lc] + tree[rc];
-    }
-    void build(int n, int b, int e){
-        lazy[n] = 0;
-        if(b == e){
-            tree[n] = a[b];
-            return;
-        }
-        int mid = (b + e) >> 1;
-        build(lc, b, mid);
-        build(rc, mid+1, e);
-        pull(n);
-    }
-    void update(int n, int b, int e, int i, int j, int v, int ty){
-        push(n, b, e);
-        if(j < b or e < i) return;
-        if(i <= b and e <= j){
-            lazy[n] = v;
-            push(n, b, e, ty);
-            return;
-        }
-        int mid = (b + e) >> 1;
-        update(lc, b, mid, i, j, v, ty);
-        update(rc, mid + 1, e, i, j, v, ty);
-        pull(n);
-    }
-    int query(int n, int b, int e, int i, int j){
-        // push(n, b, e);
-        if(i > e or b > j) return 0;
-        if(i <= b and e <= j) return tree[n];
-        int mid = (b + e) >> 1;
-        return combine(query(lc, b, mid, i, j), query(rc, mid+1, e, i, j));
-    }
-};
-
-void solve(){
-
-    int n, q; cin >> n >> q;
-    for(int i=1;i<=n;i++){
-        cin >> a[i];
-    }
-
-    SegmentTree st;
-    st.build(1, 1, n);
-
-    while(q--){
-        int t; cin >> t;
-        if(t == 3){
-            int a, b; cin >> a >> b;
-            cout << st.query(1, 1, n, a, b) << endl;
-        } else if(t == 1){
-            int a, b, x; cin >> a >> b >> x;
-            st.update(1, 1, n, a, b, x, 0);
-        } else {
-            int a, b, x; cin >> a >> b >> x;
-            st.update(1, 1, n, a, b, x, 1);
-        }
-    }
-
+void push(int k) {
+    if (mark[k]) {
+        mark[k] = 0;
+        seg[2*k].F = seg[2*k + 1].F = seg[k].F/2;
+        seg[2*k].S = seg[2*k + 1].S = 0;
+        mark[2*k] = mark[2*k + 1] = 1;
+    }   
 }
 
+void update(int v, int a, int b, int k, int x, int y) {
+    if (b < x || a > y) return;
+    if (a<=x && b>=y) {
+        seg[k].S += v;
+        return;
+    }
+    int h = min(b,y) - max(a,x) + 1;
+    push(k); 
+    seg[k].F += h*v;
+    int d = (x+y)/2;
+    update(v, a, b, 2*k, x, d);
+    update(v, a, b, 2*k + 1, d + 1, y);
+}
+int assign(int v, int a, int b, int k, int x, int y) {
+    if (b < x || a > y) return seg[k].F + (y - x + 1)*seg[k].S;
+    if (a <= x && b >= y) {
+        seg[k].F = (y-x+1)*v;
+        seg[k].S = 0;
+        mark[k] = 1; 
+        return seg[k].F;
+    }
+    push(k); 
+    int d = (x+y)/2;
+    seg[2*k].S += seg[k].S,  seg[2*k + 1].S += seg[k].S;
+    seg[k].S = 0;
+    seg[k].F = assign(v, a, b, 2*k, x, d) + assign(v, a, b, 2*k + 1, d + 1, y);
+    return seg[k].F;
+
+}
+int sum(int a, int b, int k, int x, int y) {
+    if (b < x || a > y) return 0;
+    if (a <= x && b >= y) {
+        return seg[k].F + (y-x+1)*seg[k].S;
+    }
+    push(k); 
+    seg[k].F += (y-x+1)*seg[k].S;
+    seg[2*k].S += seg[k].S, seg[2*k + 1].S += seg[k].S;
+    seg[k].S = 0;
+    int d = (x+y)/2;
+    return sum(a, b, 2*k, x, d) + sum(a, b, 2*k + 1, d + 1, y);
+}
+void solve(){
+    int n,q; cin>>n>>q;
+    int nn =n;
+    n = 1<<(int)ceil(log2(n));
+    for (int i = 0; i< nn; i++) {
+        int x; cin>>x;
+        update(x,i,i,1,0,n-1);
+    }
+    while (q--) {
+        int z;
+        cin>>z;
+        if (z == 1) {
+            int a,b,x;
+            cin>>a>>b>>x;
+            a--,b--;
+            update(x,a,b,1,0,n-1);
+        }
+        else if (z == 2) {
+            int a,b,x;
+            cin>>a>>b>>x;
+            a--,b--;
+            assign(x,a,b,1,0,n-1);
+        }
+        else {
+            int a,b;
+            cin>>a>>b; a--, b--;
+            cout<<sum(a,b,1,0,n-1)<<'\n';
+        }
+    }
+}
 
 signed main(){
-    Sowrav_Nath
-    int test_cases = 1;
-    // cin >> test_cases;
-    for(int test_case=1;test_case<=test_cases;test_case++){
-        // cout << "Case " << i << ": ";
-        // memset(dp,0,n*sizeof(int));
+    ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
+    int t=1;
+    // cin>>t;
+    for (int i = 1; i <= t; i++) {
         solve();
+        cout<<'\n';
     }
 }
