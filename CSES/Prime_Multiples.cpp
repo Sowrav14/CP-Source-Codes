@@ -6,7 +6,7 @@ using namespace __gnu_pbds;
 using namespace std;
 
 // Macros...
-#define int                 long long int
+#define int                 unsigned long long int
 #define pii                 pair<int,int>
 #define ordered_set         tree<int, null_type, less_equal<int>,rb_tree_tag,tree_order_statistics_node_update>
 #define Sowrav_Nath         ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
@@ -48,33 +48,33 @@ vector<int>primes_multiple;
 int n, k;
 vector<int>primes;
 
-void recur(int i, int prod){
-    if(i > k) return;
-    if(i == k){
-        primes_multiple.push_back(prod);
-        return;
-    }
-
-    if(log10l(prod) + log10l(primes[i]) <= 19) recur(i+1, prod * primes[i]);
-    recur(i+1, prod);
-    
-}
-
+const int inf = 1e19;
 
 void solve(){
 
     cin >> n >> k;
     primes.resize(k);
     f(i,k) cin >> primes[i];
-    recur(0, 1);
-    sort(primes_multiple.begin(), primes_multiple.end());
-    // cout << upper_bound(primes_multiple.begin(), primes_multiple.end(), n) - primes_multiple.begin();
     int ans = 0;
-    for(auto i : primes_multiple){
-        cout << i << " ";
-        ans += n / i;
+    for(int i=1;i<(1<<k);i++){
+        int sig = -1;
+        if(__builtin_popcount(i) % 2 == 1) sig = 1;
+        int prod = 1;
+        for(int b=0;b<k;b++){
+            if(i & (1 << b)){
+                float d = log10l(prod) + log10l(primes[b]);
+                if(d <= 19.0){
+                    prod = prod * primes[b];
+                } else {
+                    prod = inf;
+                    break;
+                }
+            }
+        }
+        int res = n / prod; res *= sig;
+        ans += res;
     }
-    cout << ans << endl; 
+    cout << ans << endl;
 
 }
 

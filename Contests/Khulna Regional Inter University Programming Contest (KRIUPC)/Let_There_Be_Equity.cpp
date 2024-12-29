@@ -6,19 +6,24 @@ const int N = 1e5 + 10;
 const int M = 1e9 + 7;
 const int inf = 1e12;
 
-int n;
-int a[N];
-
-
-int recur(int i){
-	
-}
-
 
 void solve(){
 
-    cin >> n;
-    for(int i=1;i<=n;i++) cin >> a[i];
+    int n; cin >> n;
+    vector<int>a(n), b(n);
+    for(int i=0;i<n;i++){
+        cin >> a[i];
+    }
+    for(int i=0;i<n;i++){
+        cin >> b[i];
+    }
+
+    sort(a.rbegin(), a.rend());
+    sort(b.begin(), b.end());
+
+    for(int i=0;i<n;i++){
+        cout << a[i] + b[i] << " \n"[i == n-1];
+    }
 
 }
 

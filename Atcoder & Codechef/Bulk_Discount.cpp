@@ -6,19 +6,22 @@ const int N = 1e5 + 10;
 const int M = 1e9 + 7;
 const int inf = 1e12;
 
-int n;
-int a[N];
-
-
-int recur(int i){
-	
-}
-
 
 void solve(){
 
-    cin >> n;
-    for(int i=1;i<=n;i++) cin >> a[i];
+    int n; cin >> n;
+    vector<int>v(n);
+    for(int i=0;i<n;i++) cin >> v[i];
+    sort(v.begin(), v.end());
+
+    int x = 0;
+    int ans = 0;
+    for(int i=0;i<n;i++){
+        int y = max(0ll, v[i]-x);
+        ans += y;
+        x++;
+    }
+    cout << ans << endl;
 
 }
 
@@ -26,7 +29,7 @@ void solve(){
 signed main(){
     Fast_IO()
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for(int i=1;i<=t;i++){
         // cout << "Case #" << i << ": ";
         solve();
