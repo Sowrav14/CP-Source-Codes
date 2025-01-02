@@ -10,17 +10,20 @@ const int inf = 1e12;
 void solve(){
 
     int n; cin >> n;
-    for(int i=1;i<=15;i++){
-        int x = 1;
-        for(int j=1;j<=i;j++){
-            x *= i;
-        }
-        if(x == n) {
-            cout << i << endl;
-            return;
-        }
+    vector<int>v(n);
+    for(int i=0;i<n;i++) cin >> v[i];
+    int ans = n;
+    int i = 0;
+    while(i < n){
+        int j = i;
+        while(j+1 < n and v[j+1] - v[j] == v[i+1] - v[i]) j++;
+        int len = j - i + 1;
+        int res = len * (len + 1); res /= 2; res -= len;
+        ans += res;
+        if(i == j) break;
+        i = j;
     }
-    cout << -1 << endl;
+    cout << ans << endl;
 
 }
 

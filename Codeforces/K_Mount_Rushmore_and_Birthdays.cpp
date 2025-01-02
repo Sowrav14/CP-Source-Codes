@@ -10,17 +10,14 @@ const int inf = 1e12;
 void solve(){
 
     int n; cin >> n;
-    for(int i=1;i<=15;i++){
-        int x = 1;
-        for(int j=1;j<=i;j++){
-            x *= i;
-        }
-        if(x == n) {
-            cout << i << endl;
+    double ans = 1;
+    for(int i=1;i<=n;i++){
+        ans *= (n - i)/(1.0 * n);
+        if(ans <= 0.5){
+            cout << i+1 << endl;
             return;
         }
     }
-    cout << -1 << endl;
 
 }
 
@@ -30,7 +27,7 @@ signed main(){
     int t = 1;
     // cin >> t;
     for(int i=1;i<=t;i++){
-        // cout << "Case #" << i << ": ";
+        // cout << "Case " << i << ": ";
         solve();
     }
 }

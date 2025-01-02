@@ -10,17 +10,9 @@ const int inf = 1e12;
 void solve(){
 
     int n; cin >> n;
-    for(int i=1;i<=15;i++){
-        int x = 1;
-        for(int j=1;j<=i;j++){
-            x *= i;
-        }
-        if(x == n) {
-            cout << i << endl;
-            return;
-        }
-    }
-    cout << -1 << endl;
+    string s = "";
+    for(int i=1;i<=n;i++) s += (char)(n+'0');
+    cout << s << endl;    
 
 }
 

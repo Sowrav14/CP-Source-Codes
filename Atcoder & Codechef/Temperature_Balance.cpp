@@ -10,17 +10,16 @@ const int inf = 1e12;
 void solve(){
 
     int n; cin >> n;
-    for(int i=1;i<=15;i++){
-        int x = 1;
-        for(int j=1;j<=i;j++){
-            x *= i;
-        }
-        if(x == n) {
-            cout << i << endl;
-            return;
-        }
+    vector<int>pos, neg;
+    int sum = 0, ans = 0;
+    for(int i=0;i<n;i++){
+        int x; cin >> x;
+        if(x > 0) pos.push_back(x);
+        if(x < 0) neg.push_back(x);
+        sum += x;
+        ans += abs(sum);
     }
-    cout << -1 << endl;
+    cout << ans <<endl;
 
 }
 
@@ -28,7 +27,7 @@ void solve(){
 signed main(){
     Fast_IO()
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for(int i=1;i<=t;i++){
         // cout << "Case #" << i << ": ";
         solve();

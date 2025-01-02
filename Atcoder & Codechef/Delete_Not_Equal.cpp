@@ -10,17 +10,15 @@ const int inf = 1e12;
 void solve(){
 
     int n; cin >> n;
-    for(int i=1;i<=15;i++){
-        int x = 1;
-        for(int j=1;j<=i;j++){
-            x *= i;
-        }
-        if(x == n) {
-            cout << i << endl;
-            return;
-        }
+    string s; cin >> s;
+    int zero = 0, one = 0;
+    for(int i=0;i<n;i++){
+        if(s[i] == '0') zero++;
+        else one++;
     }
-    cout << -1 << endl;
+
+    if(zero == n or one == n) cout << n << endl;
+    else cout << 1 << endl;
 
 }
 
@@ -28,7 +26,7 @@ void solve(){
 signed main(){
     Fast_IO()
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for(int i=1;i<=t;i++){
         // cout << "Case #" << i << ": ";
         solve();
