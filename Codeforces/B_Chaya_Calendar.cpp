@@ -10,10 +10,10 @@ void solve(){
     int prev = 0;
     for(int i=0;i<n;i++){
         int x; cin >> x;
-        int y = x;
-        while(x <= prev){
-            x += y;
-        }
+        int y = prev / x;
+        y++;
+        x *= y;
+        
         prev = x;
     }
     cout << prev << endl;
