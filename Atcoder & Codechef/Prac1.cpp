@@ -1,38 +1,53 @@
 #include <iostream>
-#include <string>
 #include <vector>
 
 using namespace std;
 
-vector<double> expected_values(const string& S) {
-    int N = S.length();
-    vector<double> expected(N, 0.0);
-    int remaining_blanks = 1;
-
-    for (int i = 0; i < N; ++i) {
-        if (S[i] != '?') {
-            expected[i] = S[i] - '0';
-        } else {
-            double sum = 0;
-            for (int j = 9; j >= 9 - remaining_blanks + 1; j--) {
-                sum += j / 10.0;
-            }
-            expected[i] = sum;
-            remaining_blanks--;
-        }
+// Helper function for backtracking
+void generate(int index, vector<int>& nums, vector<vector<int>>& groups, vector<vector<vector<int>>>& result) {
+    if (index == nums.size()) {
+        result.push_back(groups);
+        return;
     }
 
-    return expected;
+    // Add current number to an existing group
+    for (auto& group : groups) {
+        group.push_back(nums[index]);
+        generate(index + 1, nums, groups, result);
+        group.pop_back();
+    }
+
+    // Create a new group with the current number
+    groups.push_back({nums[index]});
+    generate(index + 1, nums, groups, result);
+    groups.pop_back();
 }
 
-int main() {
-    string S = "1?";
-    vector<double> result = expected_values(S);
+// Main function to generate all groupings
+vector<vector<vector<int>>> getAllGroupings(vector<int>& nums) {
+    vector<vector<vector<int>>> result;
+    vector<vector<int>> groups;
+    generate(0, nums, groups, result);
+    return result;
+}
 
-    for (double value : result) {
-        cout << value << " ";
+// Driver function
+int main() {
+    vector<int> nums = {1, 2, 3, 4}; // Example input
+
+    auto groupings = getAllGroupings(nums);
+
+    // Print all groupings
+    cout << "Total groupings: " << groupings.size() << endl;
+    for (const auto& partition : groupings) {
+        cout << "{ ";
+        for (const auto& group : partition) {
+            cout << "{";
+            for (int num : group) cout << num << " ";
+            cout << "} ";
+        }
+        cout << "}\n";
     }
-    cout << endl;
 
     return 0;
 }
