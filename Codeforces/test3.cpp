@@ -1,24 +1,18 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define int long long int
-#define Fast_IO() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
-
-void solve(){
-
-    string s; cin >> s;
-    if(s.front() == 't') cout << "YES" << endl;
-    else if(s.back() == 't') cout << "YES" << endl;
-    else cout << "NO" << endl;
-
+int prod(int n){
+ int res=1;
+ while(n){
+  res*=n%10;
+  n/=10;
+ }
+ return res;
 }
-
-
-signed main(){
-    Fast_IO()
-    int t = 1;
-    cin >> t;
-    for(int i=1;i<=t;i++){
-        // cout << "Case " << t << ": ";
-        solve();
-    }
+int main(){
+ int x,y,c=0;
+ cin>>x>>y;
+ for(int i=1;i<=x;i++){
+  if(prod(i)<=y)c++;
+ }
+ cout<<c;
 }

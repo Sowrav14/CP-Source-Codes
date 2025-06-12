@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long int
+#define Fast_IO() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+const int N = 1e5 + 10;
+const int M = 1e9 + 7;
+const int inf = 1e12;
+
+
+void solve(){
+
+    int n, a, b, c, d; cin >> n >> a >> b >> c >> d;
+    int x = max(c, d);
+
+    int ans = a * n;
+    ans = max(ans, b * n);
+    for(int i=1;i<n;i++){
+        int zero = i;
+        int one = n - i;
+        int cost = zero * a + one * b + zero * one * x;
+        ans = max(ans, cost);
+    }
+    cout << ans << endl;
+
+}
+
+
+signed main(){
+    Fast_IO()
+    int t = 1;
+    cin >> t;
+    for(int i=1;i<=t;i++){
+        // cout << "Case #" << i << ": ";
+        solve();
+    }
+}
