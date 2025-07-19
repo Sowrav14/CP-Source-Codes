@@ -8,22 +8,28 @@ const int inf = 1e12;
 
 
 void solve(){
-    int n, x; cin >> n >> x;
-    int ans = 0;
-    for (int a = 1; a <= min(n, x); a++){
-        for (int b = 1; a * b <= n and a + b <= x; b++){
-            int c = min((n - a * b) / (a + b), x - (a + b));
-            ans += c;
-        }
+
+    int n, m; cin >> n >> m;
+    priority_queue<int> pq;
+    vector<int> a(n);
+    for(int i=0;i<n;i++) cin >> a[i];
+    sort(a.begin(), a.end());
+    for(int i=1;i<n;i++) pq.push(a[i] - a[i-1]);
+    int ans = a.back() - a[0];
+    while(m > 1){
+        ans -= pq.top();
+        pq.pop();
+        m--;
     }
     cout << ans << endl;
+
 }
 
 
 signed main(){
     Fast_IO()
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for(int i=1;i<=t;i++){
         // cout << "Case #" << i << ": ";
         solve();

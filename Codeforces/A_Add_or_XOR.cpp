@@ -8,15 +8,26 @@ const int inf = 1e12;
 
 
 void solve(){
-    int n, x; cin >> n >> x;
+
+    int a, b, x, y; cin >> a >> b >> x >> y;
+    if(a - 1 > b){
+        cout << -1 << endl;
+        return;
+    }
+
+    if(a-1 == b){
+        if(a%2) cout << y << endl;
+        else cout << -1 << endl;
+        return;
+    }
+
     int ans = 0;
-    for (int a = 1; a <= min(n, x); a++){
-        for (int b = 1; a * b <= n and a + b <= x; b++){
-            int c = min((n - a * b) / (a + b), x - (a + b));
-            ans += c;
-        }
+    for(int i=a;i<b;i++){
+        if(i%2) ans += x;
+        else ans += min(x, y);
     }
     cout << ans << endl;
+
 }
 
 

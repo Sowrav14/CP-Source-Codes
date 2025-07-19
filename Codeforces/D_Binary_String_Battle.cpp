@@ -8,15 +8,18 @@ const int inf = 1e12;
 
 
 void solve(){
-    int n, x; cin >> n >> x;
-    int ans = 0;
-    for (int a = 1; a <= min(n, x); a++){
-        for (int b = 1; a * b <= n and a + b <= x; b++){
-            int c = min((n - a * b) / (a + b), x - (a + b));
-            ans += c;
-        }
+
+    int n, k; cin >> n >> k;
+    string s; cin >> s;
+    int cnt = 0;
+    for(int i=0;i<n;i++){
+        cnt += (s[i] == '1');
     }
-    cout << ans << endl;
+    if(cnt <= k or n < 2 * k){
+        cout << "Alice" << endl;
+    } else {
+        cout << "Bob" << endl;
+    }
 }
 
 

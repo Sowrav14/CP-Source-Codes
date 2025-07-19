@@ -8,15 +8,21 @@ const int inf = 1e12;
 
 
 void solve(){
-    int n, x; cin >> n >> x;
-    int ans = 0;
-    for (int a = 1; a <= min(n, x); a++){
-        for (int b = 1; a * b <= n and a + b <= x; b++){
-            int c = min((n - a * b) / (a + b), x - (a + b));
-            ans += c;
-        }
+
+    int n; cin >> n;
+    int deg = 0;
+    vector<int> a(n+1, 0);
+    for(int i=1;i<n;i++){
+        int u, v; cin >> u >> v;
+        a[u]++, a[v]++;
+        deg = max({deg, a[u], a[v]});
     }
-    cout << ans << endl;
+    if(deg <= 2){
+        cout << 2 * n - 1 << endl;
+    } else {
+        cout << n + 1 << endl;
+    }
+
 }
 
 

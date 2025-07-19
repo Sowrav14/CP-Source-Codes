@@ -6,17 +6,27 @@ const int N = 1e5 + 10;
 const int M = 1e9 + 7;
 const int inf = 1e12;
 
+int get(int n, int a, int b, int x, int y){
+    int ans = 0;
+    int rem = n;
+    if(rem >= a){
+        int t = ceil((n - a + 1) / (1.0 * x));
+        rem = n - t * x;
+        ans += t;
+    }
+    if(rem >= b){
+        ans += ceil((rem - b + 1) / (1.0 * y));
+    }
+    return ans;
+}
+
 
 void solve(){
-    int n, x; cin >> n >> x;
-    int ans = 0;
-    for (int a = 1; a <= min(n, x); a++){
-        for (int b = 1; a * b <= n and a + b <= x; b++){
-            int c = min((n - a * b) / (a + b), x - (a + b));
-            ans += c;
-        }
-    }
+
+    int n, a, b, x, y; cin >> n >> a >> b >> x >> y;
+    int ans = max(get(n, a, b, x, y), get(n, b, a, y, x));
     cout << ans << endl;
+
 }
 
 

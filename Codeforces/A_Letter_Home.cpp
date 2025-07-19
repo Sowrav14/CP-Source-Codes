@@ -8,15 +8,22 @@ const int inf = 1e12;
 
 
 void solve(){
-    int n, x; cin >> n >> x;
-    int ans = 0;
-    for (int a = 1; a <= min(n, x); a++){
-        for (int b = 1; a * b <= n and a + b <= x; b++){
-            int c = min((n - a * b) / (a + b), x - (a + b));
-            ans += c;
-        }
-    }
+
+    int n; cin >> n;
+    int s; cin >> s;
+    vector<int> v(n);
+    for(int i=0;i<n;i++) cin >> v[i];
+
+
+    int ans = v.back() - v[0];
+    
+    if(v.back() <= s) ans += s - v.back();
+    else if(v[0] >= s) ans += v[0] - s;
+    else if(v.back() - s <= s - v[0]) ans += v.back() - s;
+    else ans += s - v[0];
+
     cout << ans << endl;
+
 }
 
 

@@ -8,15 +8,21 @@ const int inf = 1e12;
 
 
 void solve(){
-    int n, x; cin >> n >> x;
-    int ans = 0;
-    for (int a = 1; a <= min(n, x); a++){
-        for (int b = 1; a * b <= n and a + b <= x; b++){
-            int c = min((n - a * b) / (a + b), x - (a + b));
-            ans += c;
+
+    int n; cin >> n;
+    string s; cin >> s;
+
+    vector<int> freq(26, 0);
+    for(int i=0;i<n;i++) freq[s[i] - 'a']++;
+
+    for(int i=1;i<n-1;i++){
+        if(freq[s[i] - 'a'] > 1) {
+            cout << "Yes" << endl;
+            return;
         }
     }
-    cout << ans << endl;
+    cout << "No" << endl;
+
 }
 
 

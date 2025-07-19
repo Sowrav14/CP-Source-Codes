@@ -8,22 +8,22 @@ const int inf = 1e12;
 
 
 void solve(){
-    int n, x; cin >> n >> x;
+
+    int n; cin >> n;
     int ans = 0;
-    for (int a = 1; a <= min(n, x); a++){
-        for (int b = 1; a * b <= n and a + b <= x; b++){
-            int c = min((n - a * b) / (a + b), x - (a + b));
-            ans += c;
-        }
+    for(int i=0;i<n;i++){
+        int x, y; cin >> x >> y;
+        if(x < y) ans++;
     }
     cout << ans << endl;
+
 }
 
 
 signed main(){
     Fast_IO()
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for(int i=1;i<=t;i++){
         // cout << "Case #" << i << ": ";
         solve();

@@ -8,15 +8,27 @@ const int inf = 1e12;
 
 
 void solve(){
-    int n, x; cin >> n >> x;
-    int ans = 0;
-    for (int a = 1; a <= min(n, x); a++){
-        for (int b = 1; a * b <= n and a + b <= x; b++){
-            int c = min((n - a * b) / (a + b), x - (a + b));
-            ans += c;
+
+    int n; cin >> n;
+    string s; cin >> s;
+    if(n >= 5){
+        cout << "NO" << endl;
+        return;
+    }
+
+    for(int i=0;i<n;i++){
+        for(int j=i;j<n;j++){
+            string t = s.substr(i, j - i + 1);
+            int num = stoi(t);
+            if(num % (j - i + 1) != 0){
+                cout << "NO" << endl;
+                return;
+            }
         }
     }
-    cout << ans << endl;
+
+    cout << "YES" << endl;
+
 }
 
 

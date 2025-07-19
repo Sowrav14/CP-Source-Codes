@@ -8,15 +8,20 @@ const int inf = 1e12;
 
 
 void solve(){
-    int n, x; cin >> n >> x;
-    int ans = 0;
-    for (int a = 1; a <= min(n, x); a++){
-        for (int b = 1; a * b <= n and a + b <= x; b++){
-            int c = min((n - a * b) / (a + b), x - (a + b));
-            ans += c;
-        }
+
+    int n; cin >> n;
+    vector<int> a(n);
+    for(int i=0;i<n;i++) cin >> a[i];
+
+    int ans = a[0];
+    for(int i=1;i<n;i++){
+        int x = a[i];
+        x = max(0ll, x - i + 1);
+        x += i;
+        ans = min(ans, x);
     }
     cout << ans << endl;
+
 }
 
 

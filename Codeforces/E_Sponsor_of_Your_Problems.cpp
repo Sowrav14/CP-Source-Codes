@@ -53,13 +53,7 @@ void solve() {
     reverse(b.begin(), b.end());
     n = a.size();
     
-    dp.assign(n + 1, vector<vector<vector<vector<int>>>>(
-        2, vector<vector<vector<int>>>(
-            2, vector<vector<int>>(
-                n + 1, vector<int>(n + 1, -1)
-            )
-        )
-    ));
+    dp.assign(n + 1, vector<vector<vector<vector<int>>>>(2, vector<vector<vector<int>>>(2, vector<vector<int>>(n + 1, vector<int>(n + 1, -1)))));
     
     cout << digitdp(0, 1, 1, 0, 0, 1) << endl;
 

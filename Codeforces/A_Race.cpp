@@ -8,15 +8,16 @@ const int inf = 1e12;
 
 
 void solve(){
-    int n, x; cin >> n >> x;
-    int ans = 0;
-    for (int a = 1; a <= min(n, x); a++){
-        for (int b = 1; a * b <= n and a + b <= x; b++){
-            int c = min((n - a * b) / (a + b), x - (a + b));
-            ans += c;
-        }
+
+    int a, x, y; cin >> a >> x >> y;
+    if(a > x and a > y){
+        cout << "YES" << endl;
+    } else if(a < x and a < y){
+        cout << "YES" << endl;
+    } else {
+        cout << "NO" << endl;
     }
-    cout << ans << endl;
+
 }
 
 
