@@ -2,6 +2,7 @@
 using namespace std;
 #define int long long int
 #define Fast_IO() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+#define endl "\n" 
 const int N = 1e5 + 10;
 const int M = 1e9 + 7;
 const int inf = 1e12;
@@ -9,13 +10,13 @@ const int inf = 1e12;
 
 void solve(){
 
-    int n, l, r; cin >> n >> l >> r;
-    string s; cin >> s;
-    bool flag = true;
-    for(int i=l;i<=r;i++){
-        if(s[i-1] != 'o') flag = false;
+    int ans = 0;
+    vector<int> a {7, 8, 5, 4, 3, 2, 9, 0, 1, 6};
+    for(int i=0;i<10;i++){
+        cout << ( i| a[i] ) << endl;
+        ans += i | a[i];
     }
-    cout << (flag ? "Yes" : "No") << endl;
+    cout << ans << endl;
 
 }
 

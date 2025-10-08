@@ -6,16 +6,25 @@ const int N = 1e5 + 10;
 const int M = 1e9 + 7;
 const int inf = 1e12;
 
+int get(int x, int y){
+    int z = x + y;
+    string s = to_string(z);
+    reverse(s.begin(), s.end());
+    int zz = stoll(s);
+    return zz;
+}
 
 void solve(){
 
-    int n, l, r; cin >> n >> l >> r;
-    string s; cin >> s;
-    bool flag = true;
-    for(int i=l;i<=r;i++){
-        if(s[i-1] != 'o') flag = false;
+    int x, y; cin >> x >> y;
+    
+    for(int i=3;i<=10;i++){
+        int z = get(x, y);
+        x = y;
+        y = z;
     }
-    cout << (flag ? "Yes" : "No") << endl;
+
+    cout << y << endl;
 
 }
 

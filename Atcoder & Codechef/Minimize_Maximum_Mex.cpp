@@ -3,31 +3,33 @@ using namespace std;
 #define int long long int
 #define Fast_IO() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 const int N = 1e5 + 10;
-const int M = 1e9;
+const int M = 1e9 + 7;
 const int inf = 1e12;
 
 
 void solve(){
 
-    int n, m; cin >> n >> m;
+    int n; cin >> n;
     vector<int> a(n), b(n);
     for(int i=0;i<n;i++) cin >> a[i];
     for(int i=0;i<n;i++) cin >> b[i];
-    sort(a.rbegin(), a.rend());
-    sort(b.begin(), b.end());
 
-    int c = 0, j = 0;
+    vector<int> s(n+1), d(n+1);
     for(int i=0;i<n;i++){
-        while(j < n and a[i] + b[j] < m){
-            j++;
+        if(a[i] == b[i]) d[a[i]] = 1;
+        else {
+            s[a[i]] = 1;
+            s[b[i]] = 1;
         }
-        if(j >= n) break;
-        c++;
-        j++;
     }
-    int ans = 0;
-    for(int i=0;i<n;i++) ans += a[i] + b[i];
-    cout << ans - c * m << endl;
+    bool flag = false;
+    for(int i=0;i<=n+1;i++){
+        if(s[i] == 0 and d[i] == 0) return cout << i << endl, void();
+        if(s[i] == 1 and d[i] == 0){
+            if(flag) return cout << i << endl, void();
+            else flag = true;
+        }
+    }
 
 }
 

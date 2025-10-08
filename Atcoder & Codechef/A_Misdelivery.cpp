@@ -9,13 +9,17 @@ const int inf = 1e12;
 
 void solve(){
 
-    int n, l, r; cin >> n >> l >> r;
-    string s; cin >> s;
-    bool flag = true;
-    for(int i=l;i<=r;i++){
-        if(s[i-1] != 'o') flag = false;
+    int n; cin >> n;
+    vector<string>v;
+    for(int i=0;i<n;i++){
+        string s; cin >> s;
+        v.push_back(s);
     }
-    cout << (flag ? "Yes" : "No") << endl;
+
+    int x; cin >> x;
+    string t; cin >> t;
+    if(t == v[x-1]) cout << "Yes" << endl;
+    else cout << "No" << endl;
 
 }
 

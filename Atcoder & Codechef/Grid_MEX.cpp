@@ -9,13 +9,16 @@ const int inf = 1e12;
 
 void solve(){
 
-    int n, l, r; cin >> n >> l >> r;
-    string s; cin >> s;
-    bool flag = true;
-    for(int i=l;i<=r;i++){
-        if(s[i-1] != 'o') flag = false;
+    int n; cin >> n;
+    vector<int> a;
+    for(int i=0;i<n;i++) a.push_back(i);
+
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            cout << a[(i+j)%n] << " ";
+        }
+        cout << endl;
     }
-    cout << (flag ? "Yes" : "No") << endl;
 
 }
 
@@ -23,7 +26,7 @@ void solve(){
 signed main(){
     Fast_IO()
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for(int i=1;i<=t;i++){
         // cout << "Case #" << i << ": ";
         solve();

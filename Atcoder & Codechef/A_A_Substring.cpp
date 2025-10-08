@@ -9,13 +9,12 @@ const int inf = 1e12;
 
 void solve(){
 
-    int n, l, r; cin >> n >> l >> r;
+    int n, a, b; cin >> n >> a >> b;
     string s; cin >> s;
-    bool flag = true;
-    for(int i=l;i<=r;i++){
-        if(s[i-1] != 'o') flag = false;
-    }
-    cout << (flag ? "Yes" : "No") << endl;
+    string ans = "";
+    for(int i=a;i<n-b;i++) ans += s[i];
+
+    cout << ans << endl;
 
 }
 
