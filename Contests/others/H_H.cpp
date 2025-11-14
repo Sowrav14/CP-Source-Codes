@@ -1,54 +1,54 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-#define int long long int
-#define Fast_IO() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
-const int N = 1e4 + 10;
-vector<int>g[N];
-int in[N], out[N], vis[N];
+#define ll long long
+#define int long long
+const int N = 1e5 + 9, MOD = 1e9 + 7;
 
-void dfs(int u){
-    vis[u] = 1;
-
-    for (auto v : g[u]){
-        out[u] = 1;
-        in[v] = 1;
-
-        if (!vis[v]){
-            dfs(v);
-        }
+vector<int> divs;
+void FINDING_DIVISORS(int n) {
+  for (int i = 1; 1LL * i * i <= n; i++) {
+    if (n % i == 0) {
+      divs.push_back(i);
+      if (i != n / i) divs.push_back(n / i);
     }
+  }
+  //--SORT KORA OPTIONAL--//
+  sort(divs.begin(), divs.end());
+  // for (auto x: divs) cout << x << ' ';
 }
 
-void solve(){
-
-    int n,m; cin >> n >> m;
-    for(int i=0;i<m;i++){
-        int u,v; cin >> u >> v;
-        g[u].push_back(v);
+int32_t main () {
+  ios_base::sync_with_stdio(0);cin.tie(0);
+  int y, k; cin >> y >> k;
+  FINDING_DIVISORS(y);
+  int x = 1;
+  // k;
+  while (k) {
+    int gcd = __gcd(x, y);
+    int num = -1;
+    for (auto d: divs) {
+      if (gcd != d && d % gcd == 0) {
+        num = d;
+        break;
+      }
     }
-    for(int i=1;i<=n;i++){
-        if(!vis[i]){
-            dfs(i);
-        }
+    if (num == -1) {
+      x += k * gcd;
+      k = 0;
+    } else {
+      // cout << "YO" << '\n';
+      int cost = num / gcd - 1;
+      cout << "\nYO " << x << ' ' << gcd << ' ' << num << ' ' << cost << ' ' << k << '\n';
+      if (cost <= k) {
+        k -= cost;
+        x += cost * gcd;
+      } else {
+        x += gcd * k;
+        k = 0;
+      }
     }
-    int tin = 0, tout = 0;
-    for(int i=1;i<=n;i++){
-        // cout << ind[i] << " " << outd[i] << endl;
-        tin += (in[i] > 0);
-        tout += (out[i] > 0);
-    }
-    cout << tin << " " << tout << endl;
-    cout << max((n - tin), (n - tout)) << endl;
-
-}
-
-
-signed main(){
-    Fast_IO()
-    int t = 1;
-    // cin >> t;
-    for(int i=1;i<=t;i++){
-        // cout << "Case " << t << ": ";
-        solve();
-    }
-}
+  }
+  cout << x << '\n';
+  
+  return 0;
+} 

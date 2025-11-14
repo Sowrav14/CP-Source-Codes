@@ -1,0 +1,6 @@
+
+g++ main2.cpp -o main
+
+g++ -O2 -std=c++17 your_file.cpp -o your_file.exe -Wl,--stack=268435456
+
+Get-Content final_product_chapter_1_input.txt | .\main.exe | Out-File output.txt

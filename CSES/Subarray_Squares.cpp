@@ -23,6 +23,10 @@ int a[N];
 int cost[N][N];
 int dp[N][N];
 
+// cost[i][j] = sum of elements from index i to j
+// actual cost will be cost[i][j] * cost[i][j] 
+// why? 
+
 // this also can be done with prefix sum in 1D.
 void calc_cost(){
     for(int i=1;i<=n;i++){
@@ -53,6 +57,10 @@ void divide_conquer_dp(int i, int l, int r, int optl, int optr){
     divide_conquer_dp(i, m+1, r, opt.second, optr);
 }
 
+/*
+    dp[i][j] = the minimum total cost to partition the first j elements
+    into i subarrays.
+*/
 
 void solve(){
 
