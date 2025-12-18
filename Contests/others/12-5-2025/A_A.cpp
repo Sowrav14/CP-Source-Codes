@@ -7,19 +7,25 @@ const int N = 2e5 + 10;
 const int M = 1e9 + 7;
 const int inf = 1e12;
 
+vector<string> month{
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+};
 
 void solve(){
 
-  int x, y; cin >> x >> y;
-
-  for(int i=1;i*i<=y;i++){
-    if(y % i == 0){
-      int a = min(i, y / i);
-      int b = max(i, y / i);
-      
-      
+  string s; cin >> s;
+  int k; cin >> k;
+  int idx = -1;
+  for(int i=0;i<12;i++){
+    if(s == month[i]){
+      idx = i;
+      break;
     }
   }
+
+  idx = (idx + k) % 12;
+  cout << month[idx] << endl;
 
 }
 
@@ -27,7 +33,7 @@ void solve(){
 signed main(){
   Fast_IO()
   int t = 1;
-  cin >> t;
+  // cin >> t;
   for(int i=1;i<=t;i++){
       // cout << "Case #" << i << ": ";
       solve();

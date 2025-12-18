@@ -1,37 +1,37 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define int long long int
-#define Fast_IO() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 
-void solve(){
+const int MOD = 1e9 + 7;
+const int N = 1e7 + 10; 
 
-    int n; cin >> n;
-    vector<int>v(n);
-    for(int i=0;i<n;i++) cin >> v[i];
-    sort(v.begin(), v.end());
-    int ans = 0;
-    for(int i=n-1;i>=1;i--){
-        int l = 0, r = i-1;
-        while(l<r){
-            if(v[l]+v[r] > v[i] and v[l]+v[i]>v[r] and v[r]+v[i]>v[l]){
-                ans += r-l;
-                r--;
-            } else {
-                l++;
-            }
-        }
-    }
-    cout << ans << endl;
+int a[N];
 
+void solve() {
+  int n; cin >> n;
+  int sum = 0;
+  for(int i = 0; i < n; i++) {
+    cin >> a[i];
+    sum += a[i];
+  }
+  for(int i = n; i < N; i++) {
+    a[i] = sum / n;
+    sum -= a[i - n];
+  }
+  int q; cin >>  q;
+  while(q--) {
+    int x; cin >> x;
+    x--;
+    if(x < N) cout << a[x] << "\n";
+    else cout << a[N - 1] << '\n';
+  }
 }
 
-
-signed main(){
-    Fast_IO()
-    int t = 1;
-    // cin >> t;
-    for(int i=1;i<=t;i++){
-        // cout << "Case " << t << ": ";
+signed main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    int t = 1; 
+    cin >> t;
+    for(int tc = 1; tc <= t; tc++) {
         solve();
     }
 }

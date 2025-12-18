@@ -2,70 +2,58 @@
 using namespace std;
 #define int long long int
 #define Fast_IO() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+#define endl "\n" 
+const int N = 2e5 + 10;
+const int M = 1e9 + 7;
 const int inf = 1e12;
-int n,m,k;
-int a[310][310];
-
-void warshall(){
-    for (int k=1;k<=n;k++) {
-        for (int i=1;i<=n;i++) {
-            for (int j=1;j<=n;j++) {
-                a[i][j] = min(a[i][j], a[i][k] + a[k][j]);
-            }
-        }
-    }
-}
 
 
 void solve(){
 
-    cin >> n >> m >> k;
-    for(int i=1;i<=n;i++){
-        for(int j=1;j<=n;j++){
-            a[i][j] = (i==j) ? 0 : inf;
+  int n, k; cin >> n >> k;
+  if(k == 1){
+    cout << 0 << endl;
+    return;
+  }
+
+  vector<vector<pair<int,int>>> pos(k + 1, vector<pair<int,int>>());
+  for(int i=1;i<=n;i++){
+    for(int j=1;j<=n;j++){
+        int x; cin >> x;
+        pos[x].push_back({i, j});
+    }
+  }
+
+  int ans = inf;
+  vector<vector<int>> dp(n + 1, vector<int>(n + 1, inf));
+  for(auto &p : pos[k]){
+    dp[p.first][p.second] = 0;
+  }
+
+  for(int i=k-1;i>=1;i--){
+    for(auto &p : pos[i]){
+        int mn = inf;
+        for(auto &q : pos[i+1]){
+            int dist = abs(p.first - q.first) + abs(p.second - q.second);
+            mn = min(mn, dp[q.first][q.second] + dist);
+        }
+        dp[p.first][p.second] = mn;
+        if(i == 1){
+            ans = min(ans, dp[p.first][p.second]);
         }
     }
-
-    for(int i=1;i<=m;i++){
-        int x,y,w; cin >> x >> y >> w;
-        a[x][y] = a[y][x] = w;
-    }
-    warshall();
-    
-    for(int i=1;i<=n;i++){
-        for(int j=1;j<=n;j++){
-            if(i == j){
-                a[i][j] = 0;
-            }else if(a[i][j] <= k){
-                a[i][j] = 1;
-            } else{
-                a[i][j] = inf;
-            }
-        }
-    }
-
-    warshall();
-
-
-    int q; cin >> q;
-    while(q--){
-        int x,y; cin >> x >> y;
-        if(a[x][y] >= inf){
-            cout << -1 << endl;
-        } else {
-            cout << a[x][y] - 1 << endl;
-        }
-    }
+  }
+  cout << ans << endl;
 
 }
 
 
 signed main(){
-    Fast_IO()
-    int t = 1;
-    // cin >> t;
-    for(int i=1;i<=t;i++){
-        // cout << "Case " << t << ": ";
-        solve();
-    }
+  Fast_IO()
+  int t = 1;
+  cin >> t;
+  for(int i=1;i<=t;i++){
+      // cout << "Case #" << i << ": ";
+      solve();
+  }
 }

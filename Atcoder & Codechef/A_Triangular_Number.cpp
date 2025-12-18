@@ -10,16 +10,8 @@ const int inf = 1e12;
 
 void solve(){
 
-  int x, y; cin >> x >> y;
-
-  for(int i=1;i*i<=y;i++){
-    if(y % i == 0){
-      int a = min(i, y / i);
-      int b = max(i, y / i);
-      
-      
-    }
-  }
+  int n; cin >> n;
+  cout << (n*(n+1))/2ll << endl;
 
 }
 
@@ -27,7 +19,7 @@ void solve(){
 signed main(){
   Fast_IO()
   int t = 1;
-  cin >> t;
+  // cin >> t;
   for(int i=1;i<=t;i++){
       // cout << "Case #" << i << ": ";
       solve();

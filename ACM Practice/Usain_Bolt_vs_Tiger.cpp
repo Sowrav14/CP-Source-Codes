@@ -7,19 +7,25 @@ const int N = 2e5 + 10;
 const int M = 1e9 + 7;
 const int inf = 1e12;
 
+/*
+
+  bolt to finish -> x
+  bolt to tiger -> y
+  tiger to finish -> x + y
+  bolt speed -> u
+  bolt -> x = u * tb => tb = x / u
+  tiger acceleration -> a
+  tiger -> y = 0.5 * a * tt^2 => tt^2 = 2y / a => tt = sqrt(2y / a)
+
+*/
 
 void solve(){
 
-  int x, y; cin >> x >> y;
-
-  for(int i=1;i*i<=y;i++){
-    if(y % i == 0){
-      int a = min(i, y / i);
-      int b = max(i, y / i);
-      
-      
-    }
-  }
+  int x, y, a, u; cin >> x >> y >> a >> u;
+  y = x + y;
+  double tb = (double)x / u;
+  double tt = sqrt((2.0 * y) / a);
+  cout << (tb < tt ? "Bolt" : "Tiger") << endl;
 
 }
 

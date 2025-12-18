@@ -10,16 +10,24 @@ const int inf = 1e12;
 
 void solve(){
 
-  int x, y; cin >> x >> y;
+  int n; cin >> n;
+  vector<int> a(n);
+  for(int i=0;i<n;i++) cin >> a[i];
 
-  for(int i=1;i*i<=y;i++){
-    if(y % i == 0){
-      int a = min(i, y / i);
-      int b = max(i, y / i);
-      
-      
-    }
+  int ans = 1;
+  vector<int> d(n+1, 0);
+  int cnt = 1;
+  if(a[0] <= n) d[a[0]]--;
+  for(int i=1;i<n;i++){
+    // cout << i << " " << cnt << " " << d[i] << endl;
+    cnt += d[i];
+    if(cnt > 0) ans++;
+    else break;
+    int x = i + a[i];
+    cnt++;
+    if(x <= n) d[x]--;
   }
+  cout << ans << endl;
 
 }
 
@@ -27,7 +35,7 @@ void solve(){
 signed main(){
   Fast_IO()
   int t = 1;
-  cin >> t;
+  // cin >> t;
   for(int i=1;i<=t;i++){
       // cout << "Case #" << i << ": ";
       solve();

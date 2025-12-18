@@ -10,16 +10,22 @@ const int inf = 1e12;
 
 void solve(){
 
-  int x, y; cin >> x >> y;
+  int n, p, m; cin >> n >> p >> m;
+  int x = (n - p);
+  
+  int mxr = 512;
+  vector<vector<int>> dp(x+10, vector<int>(mxr+10, 0));
+  dp[0][0] = 1;
 
-  for(int i=1;i*i<=y;i++){
-    if(y % i == 0){
-      int a = min(i, y / i);
-      int b = max(i, y / i);
-      
-      
+  for(int s=1;s<=x;s++){
+    for(int pl=0;pl+s<=x;pl++){
+      for(int xr=0;xr<mxr;xr++){
+        dp[s+pl][xr^s] = (dp[s+pl][xr^s] + dp[pl][xr]) % m;
+      }
     }
   }
+
+  cout << dp[x][p] % m << endl;
 
 }
 
@@ -27,7 +33,7 @@ void solve(){
 signed main(){
   Fast_IO()
   int t = 1;
-  cin >> t;
+  // cin >> t;
   for(int i=1;i<=t;i++){
       // cout << "Case #" << i << ": ";
       solve();

@@ -10,16 +10,20 @@ const int inf = 1e12;
 
 void solve(){
 
-  int x, y; cin >> x >> y;
+  int n, m; cin >> n >> m;
+  string a, b; cin >> a >> b;
+  string c = a + b;
+  int x = stoll(c);
+  int r = stoll(a);
+  x -= r;
+  string d = "";
+  for(int i=0;i<m;i++) d += '9';
+  for(int i=0;i<n;i++) d += '0';
+  int y = stoll(d);
 
-  for(int i=1;i*i<=y;i++){
-    if(y % i == 0){
-      int a = min(i, y / i);
-      int b = max(i, y / i);
-      
-      
-    }
-  }
+  int g = __gcd(x, y);
+  if(g == 0) g = 1;
+  cout << (x / g) << " " << (y / g) << endl;
 
 }
 

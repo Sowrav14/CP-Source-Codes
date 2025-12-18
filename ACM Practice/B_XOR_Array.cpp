@@ -7,19 +7,18 @@ const int N = 2e5 + 10;
 const int M = 1e9 + 7;
 const int inf = 1e12;
 
+vector<int> a{1, 2, 4, 8, 4, 2};
+vector<int> b{16, 32, 64, 128, 64, 32};
 
 void solve(){
 
-  int x, y; cin >> x >> y;
-
-  for(int i=1;i*i<=y;i++){
-    if(y % i == 0){
-      int a = min(i, y / i);
-      int b = max(i, y / i);
-      
-      
-    }
-  }
+  int n; cin >> n;
+  int l, r; cin >> l >> r;
+  vector<int> b(n+1, 0);
+  for(int i=1;i<=n;i++) b[i] = i;
+  b[l-1] = r;
+  for(int i=1;i<=n;i++) cout << (int)(b[i] ^ b[i-1]) << " ";
+  cout << endl;
 
 }
 

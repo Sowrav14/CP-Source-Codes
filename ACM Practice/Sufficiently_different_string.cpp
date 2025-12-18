@@ -10,19 +10,29 @@ const int inf = 1e12;
 
 void solve(){
 
-  int n; cin >> n;
   string s; cin >> s;
-  int first = n, last = n;
-  for(int i=0;i<n-3;i++){
-    string t = "";
-    t += s[i];
-    t += s[i+1];
-    t += s[i+2];
-    t += s[i+3];
-    if(t == "code") last = min(i, last);
-    if(t == "chef") first = min(i, first);
+  int k; cin >> k;
+
+  vector<bool> present(26, false);
+  for(char c : s){
+    present[c - 'a'] = true;
   }
-  cout << (last < first ? "AC" : "WA") << endl;
+  string t = "";
+  for(int i=0;i<26;i++){
+    if(!present[i]){
+        t += (char)(i + 'a');
+    } else {
+      if(k > 0){
+        t += (char)(i + 'a');
+        k--;
+      }
+    }
+  }
+  if(t.size() < s.size()){
+    cout << "NOPE" << endl;
+  }else {
+    cout << t.substr(0, s.size()) << endl;
+  }
 
 }
 

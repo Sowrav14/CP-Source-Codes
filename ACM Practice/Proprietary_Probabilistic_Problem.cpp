@@ -10,15 +10,19 @@ const int inf = 1e12;
 
 void solve(){
 
-  int x, y; cin >> x >> y;
+  int n; cin >> n;
+  vector<int> a(n);
+  for(int i=0;i<n;i++) cin >> a[i];
 
-  for(int i=1;i*i<=y;i++){
-    if(y % i == 0){
-      int a = min(i, y / i);
-      int b = max(i, y / i);
-      
-      
+
+  for(int i=0;i<n;i++){
+    double sum = 0;
+    for(int j=0;j<n;j++){
+      if(i != j){
+        sum += (double)((1.0 * a[j]) / (a[j] + a[i]));
+      }
     }
+    cout << fixed << setprecision(9) << 1 + sum << " ";
   }
 
 }
@@ -27,7 +31,7 @@ void solve(){
 signed main(){
   Fast_IO()
   int t = 1;
-  cin >> t;
+  // cin >> t;
   for(int i=1;i<=t;i++){
       // cout << "Case #" << i << ": ";
       solve();

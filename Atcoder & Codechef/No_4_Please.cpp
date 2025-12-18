@@ -10,17 +10,17 @@ const int inf = 1e12;
 
 void solve(){
 
-  int x, y; cin >> x >> y;
-
-  for(int i=1;i*i<=y;i++){
-    if(y % i == 0){
-      int a = min(i, y / i);
-      int b = max(i, y / i);
-      
-      
-    }
+  int n; cin >> n;
+  vector<int> a(4, 0);
+  for(int i=0;i<n;i++){
+    int x; cin >> x;
+    a[x]++;
   }
+  int ans = 0;
+  ans += min(a[1], a[3]);
+  ans += max(0ll, a[2] - 1);
 
+  cout << ans << endl;
 }
 
 

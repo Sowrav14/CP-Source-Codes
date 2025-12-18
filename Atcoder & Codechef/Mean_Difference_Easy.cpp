@@ -11,18 +11,25 @@ const int inf = 1e12;
 void solve(){
 
   int n; cin >> n;
-  string s; cin >> s;
-  int first = n, last = n;
-  for(int i=0;i<n-3;i++){
-    string t = "";
-    t += s[i];
-    t += s[i+1];
-    t += s[i+2];
-    t += s[i+3];
-    if(t == "code") last = min(i, last);
-    if(t == "chef") first = min(i, first);
+  vector<int> a(n);
+  for(int i=0;i<n;i++){
+    cin >> a[i];
   }
-  cout << (last < first ? "AC" : "WA") << endl;
+  sort(a.begin(), a.end());
+  int ans = 0;
+  int sum = a[0];
+  for(int i=n-1;i>=1;i--){
+    sum += a[i];
+    int avg = sum / (n - i + 1);
+    ans = max(ans, abs(avg - a[0]));
+  }
+  sum = a[n-1];
+  for(int i=0;i<=n-2;i++){
+    sum += a[i];
+    int avg = sum / (i + 2);
+    ans = max(ans, abs(avg - a[n-1]));
+  }
+  cout << ans << endl;
 
 }
 

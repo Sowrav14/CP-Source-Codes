@@ -10,16 +10,24 @@ const int inf = 1e12;
 
 void solve(){
 
-  int x, y; cin >> x >> y;
-
-  for(int i=1;i*i<=y;i++){
-    if(y % i == 0){
-      int a = min(i, y / i);
-      int b = max(i, y / i);
-      
-      
-    }
+  int n, x; cin >> n >> x;
+  int less = 0, greater = 0, equal = 0;
+  for(int i=0;i<n;i++){
+    int val; cin >> val;
+    if(val < x) less++;
+    else if(val > x) greater++;
+    else equal++;
   }
+
+  if(less == 0 or greater == 0){
+    cout << "Yes" << endl;
+    return;
+  }
+  if(equal > 0){
+    cout << "Yes" << endl;
+    return;
+  }
+  cout << "No" << endl; 
 
 }
 
