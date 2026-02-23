@@ -10,9 +10,21 @@ const int inf = 1e12;
 
 void solve(){
 
-  int x = 5;
-  int y = (x++) || (++x);
-  cout << x << " " << y << endl;
+  int n; cin >> n;
+  
+  for(int i=0;i<=10000;i++){
+    int sum = 0;
+    while(n){
+      sum += (n%10)*(n%10);
+      n = n/10;
+    }
+    n = sum;
+    if(n == 1){
+      cout << "Yes" << endl;
+      return;
+    }
+  }
+  cout << "No" << endl;
 
 }
 

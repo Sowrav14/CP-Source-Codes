@@ -10,9 +10,14 @@ const int inf = 1e12;
 
 void solve(){
 
-  int x = 5;
-  int y = (x++) || (++x);
-  cout << x << " " << y << endl;
+  int n, k; cin >> n >> k;
+  int tot = 0;
+  int x = 0;
+  while(1){
+    tot += n + x;
+    if(tot >= k) return cout << x << endl, void();
+    x++;
+  }
 
 }
 

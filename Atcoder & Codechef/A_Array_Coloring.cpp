@@ -10,9 +10,22 @@ const int inf = 1e12;
 
 void solve(){
 
-  int x = 5;
-  int y = (x++) || (++x);
-  cout << x << " " << y << endl;
+  int n; cin >> n;
+  vector<pair<int, int>> arr(n);
+  int par = 0;
+  for(int i=0;i<n;i++){
+    cin >> arr[i].first;
+    arr[i].second = par;
+    par ^= 1;
+  }
+
+  sort(arr.begin(), arr.end());
+  for(int i=1;i<n;i++){
+    if(arr[i].second == arr[i-1].second){
+      return cout << "NO" << endl, void();
+    }
+  }
+  cout << "YES" << endl;
 
 }
 
@@ -20,7 +33,7 @@ void solve(){
 signed main(){
   Fast_IO()
   int t = 1;
-  // cin >> t;
+  cin >> t;
   for(int i=1;i<=t;i++){
       // cout << "Case #" << i << ": ";
       solve();

@@ -10,9 +10,22 @@ const int inf = 1e12;
 
 void solve(){
 
-  int x = 5;
-  int y = (x++) || (++x);
-  cout << x << " " << y << endl;
+  int n; cin >> n;
+  int vol = 0, play = 0;
+  while(n--){
+    int x; cin >> x;
+    if(x == 1){
+      vol++;
+    } else if(x == 2){
+      if(vol > 0) vol--;
+    } else {
+      play = 1 - play;
+    }
+
+    cout << ((play && vol >= 3) ? "Yes" : "No") << endl; 
+  }
+
+
 
 }
 

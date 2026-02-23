@@ -10,9 +10,13 @@ const int inf = 1e12;
 
 void solve(){
 
-  int x = 5;
-  int y = (x++) || (++x);
-  cout << x << " " << y << endl;
+  int n; cin >> n;
+  int a = 1;
+  for(int i=1;i<=n;i++){
+    a = a * 2;
+  }
+
+  cout << a - 2*n << endl;
 
 }
 

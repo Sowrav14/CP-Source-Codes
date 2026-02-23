@@ -10,9 +10,15 @@ const int inf = 1e12;
 
 void solve(){
 
-  int x = 5;
-  int y = (x++) || (++x);
-  cout << x << " " << y << endl;
+  int p, q; cin >> p >> q;
+  int x, y; cin >> x >> y;
+
+  if(x >= p and x < p + 100 and y >= q and y < q + 100){
+      cout << "Yes" << endl;
+  }
+  else{
+      cout << "No" << endl;
+  }
 
 }
 

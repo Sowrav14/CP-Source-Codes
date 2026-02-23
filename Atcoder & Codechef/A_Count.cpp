@@ -10,9 +10,12 @@ const int inf = 1e12;
 
 void solve(){
 
-  int x = 5;
-  int y = (x++) || (++x);
-  cout << x << " " << y << endl;
+  string s; cin >> s;
+  int cnt = 0;
+  for(char c : s){
+    if(c == 'i' or c == 'j') cnt++;
+  }
+  cout << cnt << "\n";
 
 }
 

@@ -10,9 +10,14 @@ const int inf = 1e12;
 
 void solve(){
 
-  int x = 5;
-  int y = (x++) || (++x);
-  cout << x << " " << y << endl;
+  int p, q; cin >> p >> q;
+  if(p >= q){
+    cout << "Alice" << endl;
+  } else if(min(p/2, q/3) >= q-p) {
+    cout << "Bob" << endl;
+  } else {
+    cout << "Alice" << endl;
+  }
 
 }
 
@@ -20,7 +25,7 @@ void solve(){
 signed main(){
   Fast_IO()
   int t = 1;
-  // cin >> t;
+  cin >> t;
   for(int i=1;i<=t;i++){
       // cout << "Case #" << i << ": ";
       solve();

@@ -10,9 +10,11 @@ const int inf = 1e12;
 
 void solve(){
 
-  int x = 5;
-  int y = (x++) || (++x);
-  cout << x << " " << y << endl;
+  int n; cin >> n;
+  if(n == 2 || n == 3) return cout << n << endl, void();
+  if(n % 2 == 0) return cout << 0 << endl, void();
+  if(n % 3 == 0) return cout << ((n/3)%2) << endl, void();
+  cout << 1 << endl;
 
 }
 
@@ -20,7 +22,7 @@ void solve(){
 signed main(){
   Fast_IO()
   int t = 1;
-  // cin >> t;
+  cin >> t;
   for(int i=1;i<=t;i++){
       // cout << "Case #" << i << ": ";
       solve();

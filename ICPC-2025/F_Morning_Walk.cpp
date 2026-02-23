@@ -10,9 +10,15 @@ const int inf = 1e12;
 
 void solve(){
 
-  int x = 5;
-  int y = (x++) || (++x);
-  cout << x << " " << y << endl;
+  int l, u, t, n; cin >> l >> u >> t >> n;
+  for(int i=1;i<=n;i++){
+    int tt, v; cin >> tt >> v;
+    int rel = abs(v - u);
+    int rem = t - tt;
+    int dist = rel * rem;
+    int ans = dist / l;
+    cout << ans + 1 << " \n"[i==n];
+  }
 
 }
 
@@ -20,7 +26,7 @@ void solve(){
 signed main(){
   Fast_IO()
   int t = 1;
-  // cin >> t;
+  cin >> t;
   for(int i=1;i<=t;i++){
       // cout << "Case #" << i << ": ";
       solve();

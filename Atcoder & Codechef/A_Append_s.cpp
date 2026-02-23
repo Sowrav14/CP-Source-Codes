@@ -10,9 +10,9 @@ const int inf = 1e12;
 
 void solve(){
 
-  int x = 5;
-  int y = (x++) || (++x);
-  cout << x << " " << y << endl;
+  string s; cin >> s;
+  s += 's';
+  cout << s << endl;
 
 }
 
